@@ -73,11 +73,19 @@ class Item:
     """An item in our text adventure game world.
 
     Instance Attributes:
-        - # TODO
+        - name: Name of Item
+        - start_position: Starting Position of Item
+        - target_position: Location for item to be deposited
+        - target_points: Points for Depositing Item
 
     Representation Invariants:
-        - # TODO
+        - name != ""
+        - target_points > 0
     """
+    name: str
+    start_position: int
+    target_position: int
+    target_points: int
 
     def __init__(self, name: str, start: int, target: int, target_points: int) -> None:
         """Initialize a new item.
@@ -103,10 +111,14 @@ class Player:
     A Player in the text advanture game.
 
     Instance Attributes:
-        - # TODO
+        - x: Horizontal position of Player
+        - y: Vertical Position of Player
+        - inventory: List of Items carried by Player
+        - victory: win status
 
     Representation Invariants:
-        - # TODO
+        - x >= 0
+        - y >= 0
     """
 
     def __init__(self, x: int, y: int) -> None:
@@ -154,13 +166,13 @@ class World:
 
         # The map MUST be stored in a nested list as described in the load_map() function's docstring below
         self.map = self.load_map(map_data)
+        self.location_data = self.load_locations(location_data)
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
         # 1. Make sure the Location class is used to represent each location.
         # 2. Make sure the Item class is used to represent each item.
 
-    # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def load_map(self, map_data: TextIO) -> list[list[int]]:
         """
         Store map from open file map_data as the map attribute of this object, as a nested list of integers like so:
@@ -172,8 +184,17 @@ class World:
 
         Return this list representation of the map.
         """
+        map = []
+        s = map_data.read()
+        for line in s.split('\n'):
+            if line == "":
+                continue
+            row = []
+            for location_id in line.split(" "):
+                row.append(int(location_id))
 
-        # TODO: Complete this method as specified. Do not modify any of this function's specifications.
+            map.append(row)
+
 
     # TODO: Add methods for loading location data and item data (see note above).
 
