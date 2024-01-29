@@ -193,8 +193,8 @@ class World:
 
         # The map MUST be stored in a nested list as described in the load_map() function's docstring below
         self.map = self.load_map(map_data)
-        self.locations = self.load_locations(location_data)
         self.items = self.load_items(items_data)
+        self.locations = self.load_locations(location_data)
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
@@ -235,6 +235,11 @@ class World:
         for l in locations:
             location = l.split('\n')
             position = int(l[0].strip()[9::])
+            points = int(l[1])
+            b_desc = l[2]
+            l_desc = " ".join(l[3::])
+            Location(position, points, b_desc, l_desc, commands, items)
+
 
 
     # TODO: Add methods for loading location data and item data (see note above).
