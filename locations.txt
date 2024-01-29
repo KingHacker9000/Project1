@@ -19,7 +19,7 @@ You are in an empty study room. And by empty, we mean, absolutely empty. All the
 the whiteboards taken off the wall, not even the carpeting is left. Are they planning to do something else with this space?
 END
 
-LOCATION 4
+LOCATION 3
 0
 You are outside the Robarts library.
 You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
