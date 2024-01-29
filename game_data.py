@@ -128,8 +128,6 @@ class Location:
             print(command)
 
 
-
-
 class Player:
     """
     A Player in the text advanture game.
