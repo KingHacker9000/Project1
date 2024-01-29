@@ -83,7 +83,7 @@ class Location:
     items: list[Item]
     visited: bool
 
-    def __init__(self) -> None:
+    def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item]) -> None:
         """Initialize a new location.
 
         """
