@@ -25,16 +25,29 @@ class Location:
     """A location in our text adventure game world.
 
     Instance Attributes:
-        - # TODO
+        - position: The position of the location in the world map
+        - b_description: A brief description that is displayed from the second entry to the location
+        - l_description: A long description that is displayed on the first entry to the location
+        - avail_cmd: A list of available commands from the current location
+        - items: Items availaible at the current location
+        - visited: Whether the location has been visited before or not
 
     Representation Invariants:
-        - # TODO
+        - self.b_description != ''
+        - self.l_description != ''
+        - self.avail_cmd != []
+        - self.position >= 0
     """
+    position: int
+    b_description: str
+    l_description: str
+    avail_cmd: list[str]
+    items: list[str]
+    visited: bool
 
     def __init__(self) -> None:
         """Initialize a new location.
 
-        # TODO Add more details here about the initialization if needed
         """
 
         # NOTES:
@@ -53,7 +66,13 @@ class Location:
         # The only thing you must NOT change is the name of this class: Location.
         # All locations in your game MUST be represented as an instance of this class.
 
-        # TODO: Complete this method
+        self.position = None
+        self.b_description = None
+        self.l_description = None
+        self.avail_cmd = []
+        self.items = []
+        self.visited = False
+
 
     def available_actions(self):
         """
