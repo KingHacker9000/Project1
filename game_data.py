@@ -80,10 +80,10 @@ class Location:
     b_description: str
     l_description: str
     avail_cmd: list[str]
-    items: list[str]
+    items: list[Item]
     visited: bool
 
-    def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item]) -> None:
+    def __init__(self) -> None:
         """Initialize a new location.
 
         """
@@ -108,8 +108,8 @@ class Location:
         self.points = 0
         self.b_description = b_description
         self.l_description = l_description
-        self.avail_cmd = []
-        self.items = []
+        self.avail_cmd = commands
+        self.items = items
         self.visited = False
 
 
