@@ -26,6 +26,7 @@ class Location:
 
     Instance Attributes:
         - position: The position of the location in the world map
+        - points: Number of points gained by visiting the location
         - b_description: A brief description that is displayed from the second entry to the location
         - l_description: A long description that is displayed on the first entry to the location
         - avail_cmd: A list of available commands from the current location
@@ -39,6 +40,7 @@ class Location:
         - self.position >= 0
     """
     position: int
+    points: int
     b_description: str
     l_description: str
     avail_cmd: list[str]
@@ -66,9 +68,10 @@ class Location:
         # The only thing you must NOT change is the name of this class: Location.
         # All locations in your game MUST be represented as an instance of this class.
 
-        self.position = None
-        self.b_description = None
-        self.l_description = None
+        self.position = position
+        self.points = 0
+        self.b_description = b_description
+        self.l_description = l_description
         self.avail_cmd = []
         self.items = []
         self.visited = False
@@ -85,7 +88,8 @@ class Location:
         # i.e. You may remove/modify/rename this as you like, and complete the
         # function header (e.g. add in parameters, complete the type contract) as needed
 
-        # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
+        for command in self.avail_cmd:
+            print(command)
 
 
 class Item:
@@ -204,7 +208,7 @@ class World:
         Return this list representation of the map.
         """
         map = []
-        s = map_data.read()
+        s = map_data.read() 
         for line in s.split('\n'):
             if line == "":
                 continue
