@@ -44,13 +44,11 @@ class Location:
     b_description: str
     l_description: str
     avail_cmd: list[str]
-    items: list[str]
+    items: list[Item]
     visited: bool
 
     def __init__(self) -> None:
-        """Initialize a new location.
-
-        """
+        """Initialize a new location."""
 
         # NOTES:
         # Data that could be associated with each Location object:
@@ -72,8 +70,8 @@ class Location:
         self.points = 0
         self.b_description = b_description
         self.l_description = l_description
-        self.avail_cmd = []
-        self.items = []
+        self.avail_cmd = commands
+        self.items = items
         self.visited = False
 
 
