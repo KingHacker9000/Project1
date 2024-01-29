@@ -20,6 +20,42 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 from typing import Optional, TextIO
 
+class Item:
+    """An item in our text adventure game world.
+
+    Instance Attributes:
+        - name: Name of Item
+        - start_position: Starting Position of Item
+        - target_position: Location for item to be deposited
+        - target_points: Points for Depositing Item
+
+    Representation Invariants:
+        - name != ""
+        - target_points > 0
+    """
+    name: str
+    start_position: int
+    target_position: int
+    target_points: int
+
+    def __init__(self, name: str, start: int, target: int, target_points: int) -> None:
+        """Initialize a new item.
+        """
+
+        # NOTES:
+        # This is just a suggested starter class for Item.
+        # You may change these parameters and the data available for each Item object as you see fit.
+        # (The current parameters correspond to the example in the handout).
+        # Consider every method in this Item class as a "suggested method".
+        #
+        # The only thing you must NOT change is the name of this class: Item.
+        # All item objects in your game MUST be represented as an instance of this class.
+
+        self.name = name
+        self.start_position = start
+        self.target_position = target
+        self.target_points = target_points
+
 
 class Location:
     """A location in our text adventure game world.
@@ -45,7 +81,7 @@ class Location:
     items: list[str]
     visited: bool
 
-    def __init__(self) -> None:
+    def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item]) -> None:
         """Initialize a new location.
 
         """
@@ -88,41 +124,6 @@ class Location:
         # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
 
 
-class Item:
-    """An item in our text adventure game world.
-
-    Instance Attributes:
-        - name: Name of Item
-        - start_position: Starting Position of Item
-        - target_position: Location for item to be deposited
-        - target_points: Points for Depositing Item
-
-    Representation Invariants:
-        - name != ""
-        - target_points > 0
-    """
-    name: str
-    start_position: int
-    target_position: int
-    target_points: int
-
-    def __init__(self, name: str, start: int, target: int, target_points: int) -> None:
-        """Initialize a new item.
-        """
-
-        # NOTES:
-        # This is just a suggested starter class for Item.
-        # You may change these parameters and the data available for each Item object as you see fit.
-        # (The current parameters correspond to the example in the handout).
-        # Consider every method in this Item class as a "suggested method".
-        #
-        # The only thing you must NOT change is the name of this class: Item.
-        # All item objects in your game MUST be represented as an instance of this class.
-
-        self.name = name
-        self.start_position = start
-        self.target_position = target
-        self.target_points = target_points
 
 
 class Player:
@@ -139,6 +140,11 @@ class Player:
         - x >= 0
         - y >= 0
     """
+
+    x: int
+    y: int
+    inventory: list[list[Item]]
+    victory: bool
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -185,7 +191,8 @@ class World:
 
         # The map MUST be stored in a nested list as described in the load_map() function's docstring below
         self.map = self.load_map(map_data)
-        self.location_data = self.load_locations(location_data)
+        self.locations = self.load_locations(location_data)
+        self.items = self.load_items(items_data)
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
@@ -213,6 +220,19 @@ class World:
                 row.append(int(location_id))
 
             map.append(row)
+
+        return map
+
+    def load_locations(self, locations_data: TextIO) -> list[Location]:
+        """
+        Store locations from locations file into a list of Location Objects.
+        then returns list
+        """
+
+        locations = locations_data.read().split('END\n\n')
+        for l in locations:
+            location = l.split('\n')
+            position = int(l[0].strip()[9::])
 
 
     # TODO: Add methods for loading location data and item data (see note above).
