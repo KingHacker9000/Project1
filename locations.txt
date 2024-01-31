@@ -39,4 +39,3 @@ LOCATION 40
 You are at the Bahen Centre for Information and Technology. The CSSU is open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
 You are at the Bahen Centre for Information and Technology. There seems to be a workshop taking place. There are many sutdents gathered here. You entered the CSSU using your T-card a few hours ago. The room is still open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
 END
-
