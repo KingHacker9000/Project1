@@ -28,7 +28,7 @@ places throughout the night. Unfortunately, the both of you ended up losing your
 the might not let you two into the exam room! Also, you two have also lost your lucky pens. To make things worse, the cheat sheet you made 
 overnight has gone missing as well. All of this stuff must be around campus somewhere. Can you two find it before the exam begins?
 """
-RULES = ("=" * 40) + """\n"""
+RULES = ("=" * 40) + """\n\n""" + ("=" * 40)
 
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
