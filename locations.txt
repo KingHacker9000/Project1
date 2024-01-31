@@ -6,8 +6,8 @@ END
 
 LOCATION 0
 0
-You are at the Exam Centre. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to the south.
-You are at the Exam Centre. It is filled with anxious students doing last minute prep for the upcoming exam. Only a few students have begun to enter the exam room. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to the south.
+You are at the Exam Centre. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to Myhal to the North, and there is an exit to the UofT bookstore to the west.
+You are at the Exam Centre. It is filled with anxious students doing last minute prep for the upcoming exam. Only a few students have begun to enter the exam room. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to Myhal to the North, and there is an exit to the UofT bookstore to the west.
 END
 
 LOCATION 10
@@ -40,3 +40,14 @@ You are at the Bahen Centre for Information and Technology. The CSSU is open. Th
 You are at the Bahen Centre for Information and Technology. There seems to be a workshop taking place. There are many sutdents gathered here. You entered the CSSU using your T-card a few hours ago. The room is still open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
 END
 
+LOCATION 80
+0
+You are at the UofT Bookstore. There is a stationary shop. There is an exit to the Exam Centre to the East, and there is an exit to Bahen to the North.
+You are at the UofT Bookstore. There are a lot of items sold here. You notice that the stationary shop sells the same lucky pen that you lost for 20 points. You can buy it if you have 20 points. There is an exit to the Exam Centre to the East, and there is an exit to Bahen to the North.
+END
+
+LOCATION 50
+0
+You are at the Myhal Centre for Engineering Innovation. There are many  There is an exit to the Exam Centre to the East, and there is an exit to Bahen to the North.
+You are at the Myhal Centre for Engineering Innovation. All the Engineering students are entering their classes. You notice that the stationary shop sells the same lucky pen that you lost for 20 points. You can buy it if you have 20 points. There is an exit to the Exam Centre to the East, and there is an exit to Bahen to the North.
+END
