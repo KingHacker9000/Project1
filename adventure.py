@@ -19,9 +19,9 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 
 # Note: You may add in other import statements here as needed
-from game_data import World, Item, Location, Player
+from game_data import World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
 
-MOVES_PER_TURN = 5
+MOVES_PER_TURN = 20
 BACK_STORY = """Your friend and you have got an important exam coming up this evening, and you've been studying for weeks.
 Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied
 places throughout the night. Unfortunately, the both of you ended up losing your T-card as the night progressed and you're nervous because
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     p1 = Player("Player 1", 0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
     p2 = Player("Player 2", 0, 4)
 
-    menu = ["Look", "Inventory", "Score", "Quit", "Rules", "Map"]
+    menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map"]
 
     current_player = p1
     moves_this_turn = 0
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         for action in location.available_actions():
             print(action.title())
 
-        choice = input("\nEnter action: ").capitalize().strip()
+        choice = input("\nEnter action:\t").capitalize().strip()
 
         while choice in menu + ['[menu]'] and choice not in location.available_actions():
 
@@ -79,7 +79,79 @@ if __name__ == "__main__":
                 print()
 
             elif choice == 'Look':
-                print("Looking")
+                print("After a light gloss you found ", end="")
+                if location.contained_items != []:
+                    items = [item.name.capitalize() for item in location.contained_items if not isinstance(item, Treasure)]
+                    print(", ".join(items))
+
+                    pickup = input("What would you like to pickup (type none to not pickup):\t").capitalize().strip()
+
+                    if pickup not in items:
+                        print("You picked up nothing")
+
+                    for item in location.contained_items:
+                        name = item.name.capitalize()
+
+                        if name == pickup:
+
+                            if isinstance(item, Pen):
+
+                                if current_player.hasPen:
+                                    print("You already have a Pen!")
+                                else:
+                                    print("You collected the", name)
+                                    current_player.hasPen = True
+                                    item.pick_up(current_player)
+                                    location.contained_items.remove(item)
+
+                            elif isinstance(item, Reference):
+
+                                if current_player.hasReference:
+                                    print("You already have a Reference Item!")
+                                else:
+                                    print("You collected the", name)
+                                    item.pick_up(current_player)
+                                    current_player.hasReference = True
+                                    location.contained_items.remove(item)
+
+                            elif isinstance(item, Hint):
+
+                                print("You pick up the Treasure Map, and it reads the following:\n")
+                                item.read()
+                                print()
+                                
+                            elif isinstance(item, ID):
+                                if current_player.hasID:
+                                    print("You already have your ID")
+                                else:
+                                    print("You collected the", name)
+                                    item.pick_up(current_player)
+                                    current_player.hasID = True
+                                    location.contained_items.remove(item)
+
+                            else:
+                                print("You collected the", name)
+                                item.pick_up(current_player)
+                                location.contained_items.remove(item)
+                else:
+                    print("Nothing\n")
+
+
+            elif choice == "Search treasure":
+                print("Lost Energy while searching, score:\t-100")
+                current_player.score -= 100
+                items = [item for item in location.contained_items if isinstance(item, Treasure)]
+
+                if items != []:
+
+                    print("You found Treasure!!")
+                    item = items[0]
+                    print("You collected the", item.name.capitalize() )
+                    item.pick_up(current_player)
+                    location.contained_items.remove(item)
+
+                else:
+                    print("You found no Hidden Treasure")
 
             elif choice == 'Inventory':
                 print(current_player.inventory)
@@ -113,7 +185,7 @@ if __name__ == "__main__":
             for action in location.available_actions():
                 print(action.title())
 
-            choice = input("\nEnter action: ").capitalize().strip()
+            choice = input("\nEnter action:\t").capitalize().strip()
 
         if choice in ['Go north', 'Go up']:
             current_player.y -= 1

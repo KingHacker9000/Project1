@@ -6,8 +6,8 @@ END
 
 LOCATION 0
 0
-You are at the Exam Centre. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to Myhal to the North, and there is an exit to the UofT bookstore to the west.
-You are at the Exam Centre. It is filled with anxious students doing last minute prep for the upcoming exam. Only a few students have begun to enter the exam room. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to Myhal to the North, and there is an exit to the UofT bookstore to the west.
+You are at the Exam Centre. To enter the exam and clear the game: Deposit your T-card, a Reference, and a pen. There is an exit to Myhal to the North, and there is an exit to the UofT Bookstore to the West.
+You are at the Exam Centre. It is filled with anxious students doing last minute prep for the upcoming exam. Only a few students have begun to enter the exam room. To enter the exam and clear the game: deposit your T-card, a Reference, and a pen. There is an exit to Myhal to the North, and there is an exit to the UofT bookstore to the west.
 END
 
 LOCATION 10
@@ -66,12 +66,12 @@ END
 
 LOCATION 90
 0
-You are at the First Floor of the E.J Pratt Library. There are many items lying around. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
-You are at the Front Campus. It is filled with snow and there are many students playing around the field. You notice that there are many items lying around on the ground. Maybe one of your items is lying here. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
+You are at the First Floor of the E.J Pratt Library. There are very few students studying on this floor. There is an exit to the South heading towards Front Campus and a staircase to the second floor.
+You are at the First Floor of the E.J Pratt Library. There are very few students studying on this floor. There is an exit to the South heading towards Front Campus and a staircase to the second floor.
 END
 
 LOCATION 91
 0
-You are at the Second Floor of the E.J Pratt Library. There are many items lying around. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
-You are at the Front Campus. It is filled with snow and there are many students playing around the field. You notice that there are many items lying around on the ground. Maybe one of your items is lying here. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
+You are at the Second Floor of the E.J Pratt Library. There are many students studying in this floor. There is a staircase down to the first floor.
+You are at the Second Floor of the E.J Pratt Library. There are many students studying in this floor. There is a staircase down to the first floor.
 END

@@ -95,6 +95,12 @@ class Pen(Item):
         player.score += math.fabs(self.target_points) // 5
 
 
+class ID(Item):
+    pass
+
+class Treasure(Item):
+    pass
+
 class Hint(Item):
 
     def __init__(self, name: str, start: int, target: int, target_points: int, hint: str) -> None:
@@ -137,7 +143,7 @@ class Location:
     b_description: str
     l_description: str
     avail_cmd: list[str]
-    items: list[Item]
+    contained_items: list[Item]
     visited: bool
 
     def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item] = []) -> None:
@@ -166,12 +172,12 @@ class Location:
         self.b_description = b_description
         self.l_description = l_description
         self.avail_cmd = commands
-        self.items = items
+        self.contained_items = items
         self.visited = False
 
 
     def add_items(self, items: list[Item]):
-        self.items.extend(items)
+        self.contained_items.extend(items)
 
     def available_actions(self):
         """
@@ -205,9 +211,9 @@ class Player:
     inventory: list[list[Item]]
     victory: bool
     score: int
-    hasPen: False
-    hasID: False
-    hasReference: False
+    hasPen: bool
+    hasID: bool
+    hasReference: bool
 
     def __init__(self, name:str, x: int, y: int) -> None:
         """
@@ -224,6 +230,9 @@ class Player:
         self.inventory = []
         self.victory = False
         self.score = 0
+        self.hasPen = False
+        self.hasID = False
+        self.hasReference = False
 
 
 class World:
@@ -261,9 +270,13 @@ class World:
 
         for l in self.locations:
             items = [item for item in self.items if item.start_position == l.position]
-            l.add_items(items)
+            l.contained_items = items
+            print(l.contained_items, l.position)
             if items != []:
                 l.avail_cmd.append('Pick up')
+        
+        for l in self.locations:
+            print(l.contained_items)
     
 
     def load_map(self, map_data: TextIO) -> list[list[int]]:
@@ -389,8 +402,8 @@ class World:
                     hinty = random.randint(0, len(self.map)-1)
 
                 hintLocation = self.get_location(hintx, hinty).position
-                items_list.append(Hint("Treasure Map", hintLocation, hintLocation, 0, f"Hear ye, Seekers bold and keen, a lost prize at an unknown scene! To reclaim the treasures I hide, follow the path I provide. Higher or Forward, my message is cryptic, but you'll find great pleasure looking {int(math.fabs(hintx - x)) if hintx - x != 0 else 'none'} {'away from' if hintx - x >= 0 else 'towards'} the arctic. But do not forget {int(math.fabs(hinty - y)) if hinty - y != 0 else 'none'} {'away from' if hinty - y <= 0 else 'towards'} the sunrise, is where my treasure hidden lies"))
-                items_list.append(Item(name, location, target, points))
+                items_list.append(Hint("Treasure Map", hintLocation, hintLocation, 0, f"Hear ye, Seekers bold and keen, a lost prize at an unknown scene! To reclaim the treasures I hide, follow the path I provide. Higher or Forward, my message is cryptic, but you'll find great pleasure looking {int(math.fabs(hinty - y)) if hinty - y != 0 else 'none'} {'away from' if hinty - y <= 0 else 'towards'} the arctic. But do not forget {int(math.fabs(hintx - x)) if hintx - x != 0 else 'none'} {'away from' if hintx - x >= 0 else 'towards'} the sunrise, is where my treasure hidden lies"))
+                items_list.append(Treasure(name, location, target, points))
 
             else:
                 items_list.append(Item(name, location, target, points))
