@@ -27,16 +27,21 @@ from game_data import World, Item, Location, Player
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
     print(w)
-    p = Player(1, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
+    p1 = Player(0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
+    p2 = Player(0, 4)
 
     menu = ["look", "inventory", "score", "quit", "back"]
 
-    while not p.victory:
-        location = w.get_location(p.x, p.y)
+    current_player = p1
 
-        # TODO: ENTER CODE HERE TO PRINT LOCATION DESCRIPTION
-        # Depending on whether or not it's been visited before,
-        # print either full description (first time visit) or brief description (every subsequent visit)
+    while not p1.victory and not p2.victory:
+        location = w.get_location(current_player.x, current_player.y)
+
+        if location.visited:
+            print(location.b_description)
+        else:
+            print(location.l_description)
+            location.visited = True
 
         print("What to do? \n")
         print("[menu]")
