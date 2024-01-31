@@ -4,23 +4,39 @@ That way is blocked.
 That way is blocked.
 END
 
-LOCATION 1
+LOCATION 0
 0
-You are on the first floor of the Robarts Library. There is an empty study room to the South, an exit from the library to the East.
-You are on the first floor of the Robarts Library. It's usually crowded at this time of the day, but today it's eerily quiet.
-Only a few students are studying inside one of the study rooms. You better not disturb them. A librarian stands near the
-service desk, looking bored and sleepy. There is an empty study room to the South, an exit from the library to the East.
+You are at the Exam Centre. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to the south.
+You are at the Exam Centre. It is filled with anxious students doing last minute prep for the upcoming exam. Only a few students have begun to enter the exam room. To enter the exam and clear the game: deposit your T-card, cheat sheet, and lucky pen. There is an exit to the south.
 END
 
-LOCATION 2
+LOCATION 10
 0
-This study room is completely empty.
-You are in an empty study room. And by empty, we mean, absolutely empty. All the tables and chairs have been taken out,
-the whiteboards taken off the wall, not even the carpeting is left. Are they planning to do something else with this space?
+You are on the first floor of the Robarts Library. There is an exit from the library to the South, and a staircase to the second floor to the North.
+You are on the first floor of the Robarts Library. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying inside one of the study rooms. You better not disturb them. A librarian stands near the service desk, looking bored and sleepy. There is an exit from the library to the East, and a staircase to the second floor to the North.
 END
 
-LOCATION 3
+LOCATION 11
 0
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+You are on the second floor of the Robarts Library, the Robarts Commons. There are books lying around on tables. There is a staircase to the first floor to the South, and a staircase to the third floor to the North.
+You are on the second floor of the Robarts Library, the Robarts Commons. There are books lying around on tables. It's more crowded here than the first floor. Students are studying on the tables and there are books lying on these tables. The book you used to study is lying on the table you sat on a while ago. There is a staircase to the first floor to the South, and a staircase to the third floor to the North.
 END
+
+LOCATION 12
+0
+You are on the third floor of the Robarts library, the cafe. There is a password protected locker with your name on it. There is a staircase to the second floor to the South.
+You are on the third floor of the Robarts library, the cafe. There is a smell of coffee in the air and you notice a lot of students chatting with their friends. This floor has student lockers where you can collect items you kept there. There is a password protected locker with your name on it. There is a staircase to the second floor to the South.
+END
+
+LOCATION 30
+0
+You are at the math learning center at Sidney Smith. There are books lying around on tables. There is a staircase to the exit that takes you to Robarts to the North, and there is an exit that takes you to Bahen to the South.
+You are at the math learning center at Sidney Smith. You were studying here a few hours ago. The room is still packed with students relentlessly asking questions to the TA. There are books that you left lying around on the tables. There is a staircase to the exit that takes you to Robarts to the North, and there is an exit that takes you to Bahen to the South.
+END
+
+LOCATION 40
+0
+You are at the Bahen Centre for Information and Technology. The CSSU is open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
+You are at the Bahen Centre for Information and Technology. There seems to be a workshop taking place. There are many sutdents gathered here. You entered the CSSU using your T-card a few hours ago. The room is still open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
+END
+
