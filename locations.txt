@@ -12,32 +12,32 @@ END
 
 LOCATION 10
 0
-You are on the first floor of the Robarts Library. There is an exit from the library to the South, and a staircase to the second floor to the North.
-You are on the first floor of the Robarts Library. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying inside one of the study rooms. You better not disturb them. A librarian stands near the service desk, looking bored and sleepy. There is an exit from the library to the East, and a staircase to the second floor to the North.
+You are on the first floor of the Robarts Library. There is an exit from the library to the South, and a staircase up to the second floor.
+You are on the first floor of the Robarts Library. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying inside one of the study rooms. You better not disturb them. A librarian stands near the service desk, looking bored and sleepy. There is an exit from the library to the East, and a staircase up to the second floor.
 END
 
 LOCATION 11
 0
 You are on the second floor of the Robarts Library, the Robarts Commons. There are books lying around on tables. There is a staircase to the first floor to the South, and a staircase to the third floor to the North.
-You are on the second floor of the Robarts Library, the Robarts Commons. There are books lying around on tables. It's more crowded here than the first floor. Students are studying on the tables and there are books lying on these tables. The book you used to study is lying on the table you sat on a while ago. There is a staircase to the first floor to the South, and a staircase to the third floor to the North.
+You are on the second floor of the Robarts Library, the Robarts Commons. There are books lying around on tables. It's more crowded here than the first floor. Students are studying on the tables and there are books lying on these tables. The book you used to study is lying on the table you sat on a while ago. There is a staircase down to the first floor, and a staircase up to the third floor.
 END
 
 LOCATION 12
 0
-You are on the third floor of the Robarts library, the cafe. There is a password protected locker with your name on it. There is a staircase to the second floor to the South.
-You are on the third floor of the Robarts library, the cafe. There is a smell of coffee in the air and you notice a lot of students chatting with their friends. This floor has student lockers where you can collect items you kept there. There is a password protected locker with your name on it. There is a staircase to the second floor to the South.
+You are on the third floor of the Robarts library, the cafe. There is a password protected locker with your name on it. There is a staircase down to the second floor.
+You are on the third floor of the Robarts library, the cafe. There is a smell of coffee in the air and you notice a lot of students chatting with their friends. This floor has student lockers where you can collect items you kept there. There is a password protected locker with your name on it. There is a staircase down to the second floor.
 END
 
 LOCATION 30
 0
-You are at the math learning center at Sidney Smith. There are books lying around on tables. There is a staircase to the exit that takes you to Robarts to the North, there is an exit that takes you to Bahen to the South, and there is an exit to the front campus to the East.
-You are at the math learning center at Sidney Smith. You were studying here a few hours ago. The room is still packed with students relentlessly asking questions to the TA. There are books that you left lying around on the tables. There is a staircase to the exit that takes you to Robarts to the North, there is an exit that takes you to Bahen to the South, and there is an exit to the front campus to the East.
+You are at the math learning center at Sidney Smith. There are books lying around on tables. There is an exit that takes you to Robarts to the North, there is an exit that takes you to Bahen to the South, and there is an exit to the front campus to the East.
+You are at the math learning center at Sidney Smith. You were studying here a few hours ago. The room is still packed with students relentlessly asking questions to the TA. There are books that you left lying around on the tables. There is an exit that takes you to Robarts to the North, there is an exit that takes you to Bahen to the South, and there is an exit to the front campus to the East.
 END
 
 LOCATION 40
 0
-You are at the Bahen Centre for Information and Technology. The CSSU is open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
-You are at the Bahen Centre for Information and Technology. There seems to be a workshop taking place. There are many sutdents gathered here. You entered the CSSU using your T-card a few hours ago. The room is still open. There is a staircase to the exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
+You are at the Bahen Centre for Information and Technology. The CSSU is open. There is an exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
+You are at the Bahen Centre for Information and Technology. There seems to be a workshop taking place. There are many sutdents gathered here. You entered the CSSU using your T-card a few hours ago. The room is still open. There is an exit that takes you to the bookstore to the South, and there is an exit that takes you to Sidney Smith to the North.
 END
 
 LOCATION 80
@@ -48,6 +48,18 @@ END
 
 LOCATION 50
 0
-You are at the Myhal Centre for Engineering Innovation. There are many  There is an exit to the Exam Centre to the East, and there is an exit to Bahen to the North.
-You are at the Myhal Centre for Engineering Innovation. All the Engineering students are entering their classes. You notice that the stationary shop sells the same lucky pen that you lost for 20 points. You can buy it if you have 20 points. There is an exit to the Exam Centre to the East, and there is an exit to Bahen to the North.
+You are at the Myhal Centre for Engineering Innovation. There are many tables to study here. There is an exit to the Exam Centre to the South, there is an exit to the Front Campus to the North, and there is an exit to the Medical Science building to the East.
+You are at the Myhal Centre for Engineering Innovation. All the Engineering students are entering their classes and there is a lot of noise. There are a lot of empty study tables to use. There is an exit to the Exam Centre to the South, there is an exit to the Front Campus to the North, and there is an exit to the Medical Science building to the East.
 END
+
+LOCATION 70
+0
+You are at the Medical Science building. The dining hall is here. There is an exit to Myhal to the West.
+You are at the Medical Science building. The dining hall is filled with students and you can smell good food. You can buy a burrito for 10 points. There is an exit to Myhal to the West.
+END
+
+LOCATION 60
+0
+You are at the Front Campus. There are many items lying around. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
+You are at the Front Campus. It is filled with snow and there are many students playing around the field. You notice that there are many items lying around on the ground. Maybe one of your items is lying here. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
+END 
