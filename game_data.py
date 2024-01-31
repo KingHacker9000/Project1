@@ -120,12 +120,7 @@ class Location:
         and the x,y position of this location on the world map.
         """
 
-        # NOTE: This is just a suggested method
-        # i.e. You may remove/modify/rename this as you like, and complete the
-        # function header (e.g. add in parameters, complete the type contract) as needed
-
-        for command in self.avail_cmd:
-            print(command)
+        return self.avail_cmd
 
 
 class Player:
@@ -298,7 +293,13 @@ class World:
          return None.)
         """
 
-        return self.map[y][x] if self.map[y][x] != -1 else None
+        if self.map[y][x] == -1:
+            return None
+        
+        for location in self.locations:
+            if location.position == self.map[y][x]:
+                return location
+ 
 
     def __repr__(self) -> str:
         s = 'MAP:\n'
