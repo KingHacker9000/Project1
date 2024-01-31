@@ -19,6 +19,7 @@ please consult our Course Syllabus.
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 from typing import Optional, TextIO
+import math, json
 
 class Item:
     """An item in our text adventure game world.
@@ -248,33 +249,43 @@ class World:
 
             commands = []
 
-            if position != -1:
+            if position > -1:
                 for i in range(len(self.map)):
                     if position in self.map[i]:
                         j = self.map[i].index(position)
 
-                        if j + 1 < len(self.map[i]) and self.map[i][j+1] != -1:
-                            commands.append('East')
+                        if j + 1 < len(self.map[i]) and self.map[i][j+1] > -1 and self.map[i][j] % 10 == 0 and self.map[i][j+1] % 10 == 0:
+                            commands.append('Go east')
                         
-                        if j - 1 >= 0 and self.map[i][j-1] != -1:
-                            commands.append('West')
+                        if j - 1 >= 0 and self.map[i][j-1] > -1 and self.map[i][j] % 10 == 0 and self.map[i][j-1] % 10 == 0:
+                            commands.append('Go west')
 
-                        import math
-
-                        if i - 1 >= 0 and self.map[i - 1][j] != -1:
+                        if i - 1 >= 0 and self.map[i - 1][j] > -1:
                             if math.fabs(self.map[i-1][j] - self.map[i][j]) < 10:
-                                commands.append('Up')
-                            else:
-                                commands.append('North')
+                                commands.append('Go up')
 
-                        if i + 1 < len(self.map) and self.map[i + 1][j] != -1:
+                            elif self.map[i][j] % 10 == 0:
+                                n = i-1
+                                while n > 0 and self.map[n][j] != -1:
+                                    if self.map[n][j] % 10 == 0:
+                                        commands.append('Go north')
+                                        break
+                                    n -= 1
+
+                        if i + 1 < len(self.map) and self.map[i + 1][j] > -1:
                             if math.fabs(self.map[i][j] - self.map[i+1][j]) < 10:
-                                commands.append('Down')
-                            else:
-                                commands.append('South')
+                                commands.append('Go down')
+
+                            elif self.map[i][j] % 10 == 0:
+                                n = i + 1
+                                while n < len(self.map) and self.map[n][j] != -1:
+                                    if self.map[n][j] % 10 == 0:
+                                        commands.append('Go south')
+                                        break
+                                    n += 1
 
                         if items != []:
-                            commands.append('Pick Up')
+                            commands.append('Pick up')
    
 
             locations_list.append(Location(position, points, b_desc, l_desc, commands, items))
@@ -310,13 +321,114 @@ class World:
          return None.)
         """
 
-        if self.map[y][x] == -1:
+        if self.map[y][x] <= -1 :
             return None
-        
+
         for location in self.locations:
             if location.position == self.map[y][x]:
                 return location
- 
+
+
+    def draw_map(self, p1: Player = None, p2: Player = None):
+
+        buildings = []
+
+        for x in range(len(self.map[0])):
+
+            column = []
+            building_height = None
+            prev_location = None
+            for y in range(len(self.map)):
+
+                if self.map[y][x] == -1:
+
+                    if building_height is not None and building_height != 0:
+                        column.append(building_height)
+                    building_height = 0
+                    column.append(building_height)
+
+                elif self.map[y][x] > -1:
+                    location = self.get_location(x, y)
+
+                    p = location.position
+
+                    if prev_location is not None and math.fabs(p - prev_location) < 10:
+                        building_height += 1
+
+                    else:
+
+                        if building_height is not None and building_height != 0:
+                            column.append(building_height)
+
+                        building_height = 1
+
+                    prev_location = p
+
+            if building_height is not None and building_height != 0:
+                column.append(building_height)
+
+            buildings.append(column)
+
+
+        map = ""
+
+        yPos = sum([max([buildings[i][j] for i in range(len(buildings))]) for j in range(len(buildings[0]))]) -1
+
+        for i in range(len(buildings[0])-1, -1, -1):
+
+            xPos = 0
+            tallest = max([buildings[y][i] for y in range(len(buildings))])
+
+            block = []
+
+            for j in range(len(buildings)):
+
+                yBase = yPos
+
+                for x in range(buildings[j][i]):
+
+                    y = x * 3
+
+                    s = "▢"
+                    if yPos == p1.y and xPos == p1.x:
+                        s = "A"
+                    elif yPos == p2.y and xPos == p2.x:
+                        s = "B"
+
+                    if len(block) > y+2:
+                        block[y+2] +=   "|           |\t"
+                        
+                        block[y+1] += f"| ▢ ▢ {s} ▢ ▢ |\t"
+                        block[y] += "|___________|\t"
+                    else:
+                        block.append("|___________|\t")
+                        block.append(f"| ▢ ▢ {s} ▢ ▢ |\t")
+                        block.append("|           |\t")
+                    yPos -= 1
+
+                yPos = yBase
+
+                if buildings[j][i] > 0:
+                    if len(block) > y+3:
+                        block[y+3] += " ___________ \t"  
+                    else:
+                        block.append(" ___________ \t")
+                    y+=3
+
+                while y < tallest:
+                    if len(block) > y+1:
+                        block[y+1] += " "*12 + '\t'
+                    else:
+                        block.append(" "*12 + '\t')
+                    y += 1
+
+                xPos += 1
+
+            map = "\n".join(block[::-1]) + '\n\n' + map
+            yPos -= 1
+
+        print(map)
+
 
     def __repr__(self) -> str:
         s = 'MAP:\n'

@@ -36,31 +36,33 @@ if __name__ == "__main__":
     p1 = Player("Player 1", 0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
     p2 = Player("Player 2", 0, 4)
 
-    menu = ["Look", "Inventory", "Score", "Quit", "Rules"]
+    menu = ["Look", "Inventory", "Score", "Quit", "Rules", "Map"]
 
     current_player = p1
+    moves_this_turn = 0
 
-    print(BACK_STORY)
+    print('\n\n\n' + BACK_STORY)
     print(RULES)
 
     while not p1.victory and not p2.victory:
 
-        print('#'*30)
-        print(current_player.name + "'s Turn")
-        print('#'*30)
+        if moves_this_turn == 0:
+            print('#'*30)
+            print(current_player.name + "'s Turn")
+            print('#'*30)
 
         location = w.get_location(current_player.x, current_player.y)
 
         if location.visited:
             print(location.b_description)
         else:
-            print(location.l_description, location.position)
+            print(location.l_description)
             location.visited = True
 
         print("What to do? \n")
         print("[menu]")
         for action in location.available_actions():
-            print(action)
+            print(action.title())
 
         choice = input("\nEnter action: ").capitalize().strip()
 
@@ -84,30 +86,40 @@ if __name__ == "__main__":
                 print("GAME OVER!!")
                 exit()
 
+            elif choice == "Map":
+                w.draw_map(p1, p2)
+
             elif choice == "Rules":
                 print(RULES)
 
             else:
-                print('NOT A VALID ACTION!')
+                print('NOT A VALID ACTION! xP')
+
+            print(location.b_description)
 
             for action in location.available_actions():
-                print(action)
+                print(action.title())
 
-            choice = input("\nChoose action: ")
+            choice = input("\nChoose action: ").capitalize().lower()
 
-        if choice in ['North', 'Up']:
+        if choice in ['Go north', 'Go up']:
             current_player.y -= 1
 
-        elif choice in ['South', 'Down']:
+        elif choice in ['Go south', 'Go down']:
             current_player.y += 1
 
-        elif choice == 'East':
+        elif choice == 'Go east':
             current_player.x += 1
 
-        elif choice == 'West':
+        elif choice == 'Go west':
             current_player.x -= 1
 
-        current_player = p2 if current_player == p1 else p1
+
+        moves_this_turn += 1
+
+        if moves_this_turn >= MOVES_PER_TURN:
+            current_player = p2 if current_player == p1 else p1
+            moves_this_turn = 0
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
         #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
