@@ -21,9 +21,10 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import World, Item, Location, Player
 
-# Note: You may add helper functions, classes, etc. here as needed
+MOVES_PER_TURN = 3
+BACK_STORY = """"""
+RULES = ("=" * 40) + """\n"""
 
-# Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
 
@@ -33,6 +34,9 @@ if __name__ == "__main__":
     menu = ["Look", "Inventory", "Score", "Quit"]
 
     current_player = p1
+
+    print(BACK_STORY)
+    print(RULES)
 
     while not p1.victory and not p2.victory:
 
