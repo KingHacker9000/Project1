@@ -26,7 +26,7 @@ from game_data import World, Item, Location, Player
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
-    print(w)
+
     p1 = Player(0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
     p2 = Player(0, 4)
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         if location.visited:
             print(location.b_description)
         else:
-            print(location.l_description)
+            print(location.l_description, location.position)
             location.visited = True
 
         print("What to do? \n")

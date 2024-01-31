@@ -240,24 +240,34 @@ class World:
             items = [item for item in self.items if item.start_position == location]
 
             commands = []
-            for i in range(len(self.map)):
-                if position in self.map[i]:
-                    j = self.map[i].index(position)
 
-                    if j + 1 < len(self.map[i]) and self.map[i][j+1] != -1:
-                        commands.append('East')
-                    
-                    if j - 1 >= 0 and self.map[i][j-1] != -1:
-                        commands.append('West')
+            if position != -1:
+                for i in range(len(self.map)):
+                    if position in self.map[i]:
+                        j = self.map[i].index(position)
 
-                    if i + 1 < len(self.map) and self.map[i + 1][j] != -1:
-                        commands.append('South')
-                    
-                    if i - 1 >= 0 and self.map[i - 1][j] != -1:
-                        commands.append('North')
+                        if j + 1 < len(self.map[i]) and self.map[i][j+1] != -1:
+                            commands.append('East')
+                        
+                        if j - 1 >= 0 and self.map[i][j-1] != -1:
+                            commands.append('West')
 
-                    if items != []:
-                        commands.append('Pick Up')
+                        import math
+
+                        if i - 1 >= 0 and self.map[i - 1][j] != -1:
+                            if math.fabs(self.map[i-1][j] - self.map[i][j]) < 10:
+                                commands.append('Up')
+                            else:
+                                commands.append('North')
+
+                        if i + 1 < len(self.map) and self.map[i + 1][j] != -1:
+                            if math.fabs(self.map[i][j] - self.map[i+1][j]) < 10:
+                                commands.append('Down')
+                            else:
+                                commands.append('South')
+
+                        if items != []:
+                            commands.append('Pick Up')
    
 
             locations_list.append(Location(position, points, b_desc, l_desc, commands, items))
