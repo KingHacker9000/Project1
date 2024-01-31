@@ -232,7 +232,7 @@ class World:
         """
 
         locations = locations_data.read().split('END\n\n')
-
+        
         locations_list = []
 
         for l in locations:
@@ -240,7 +240,7 @@ class World:
             position = int(location[0].strip()[9::])
             points = int(location[1])
             b_desc = location[2]
-            l_desc = " ".join(l[3::])
+            l_desc = "".join(location[3::]).strip()
 
             items = [item for item in self.items if item.start_position == location]
 
@@ -267,7 +267,7 @@ class World:
 
             locations_list.append(Location(position, points, b_desc, l_desc, commands, items))
 
-
+        return locations_list
 
     def load_items(self, items_data: TextIO) -> list[Item]:
         """
@@ -304,7 +304,7 @@ class World:
         s = 'MAP:\n'
 
         import json
-        s += json.dumps(self.map)
+        s += json.dumps(self.map, indent=4)
 
         s += '\nItems:\n'
         for item in self.items:
@@ -312,6 +312,6 @@ class World:
 
         s += '\nLocations:\n'
         for location in self.locations:
-            s += " | ".join([location.position, location.l_description]) + '\n'
+            s += " | ".join([str(location.position), location.l_description]) + '\n'
 
         return s
