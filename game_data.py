@@ -56,6 +56,8 @@ class Item:
         self.target_position = target
         self.target_points = target_points
 
+    def __repr__(self) -> str:
+        return self.name
 
 class Location:
     """A location in our text adventure game world.
@@ -132,18 +134,21 @@ class Player:
         - y: Vertical Position of Player
         - inventory: List of Items carried by Player
         - victory: win status
+        - score: points awarded to the player
 
     Representation Invariants:
         - x >= 0
         - y >= 0
     """
 
+    name: str
     x: int
     y: int
     inventory: list[list[Item]]
     victory: bool
+    score: int
 
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, name:str, x: int, y: int) -> None:
         """
         Initializes a new Player at position (x, y).
         """
@@ -152,10 +157,12 @@ class Player:
         # This is a suggested starter class for Player.
         # You may change these parameters and the data available for the Player object as you see fit.
 
+        self.name = name
         self.x = x
         self.y = y
         self.inventory = []
         self.victory = False
+        self.score = 0
 
 
 class World:

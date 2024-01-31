@@ -27,14 +27,19 @@ from game_data import World, Item, Location, Player
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
 
-    p1 = Player(0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
-    p2 = Player(0, 4)
+    p1 = Player("Player 1", 0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
+    p2 = Player("Player 2", 0, 4)
 
-    menu = ["look", "inventory", "score", "quit", "back"]
+    menu = ["Look", "Inventory", "Score", "Quit"]
 
     current_player = p1
 
     while not p1.victory and not p2.victory:
+
+        print('#'*30)
+        print(current_player.name + "'s Turn")
+        print('#'*30)
+
         location = w.get_location(current_player.x, current_player.y)
 
         if location.visited:
@@ -47,13 +52,44 @@ if __name__ == "__main__":
         print("[menu]")
         for action in location.available_actions():
             print(action)
-        choice = input("\nEnter action: ")
+        choice = input("\nEnter action: ").capitalize().strip()
 
         if choice == "[menu]":
             print("Menu Options: \n")
             for option in menu:
                 print(option)
             choice = input("\nChoose action: ")
+
+        if choice == 'Look':
+            print("Looking")
+
+        elif choice == 'Inventory':
+            print(current_player.inventory)
+
+        elif choice == "Score":
+            print(current_player.score)
+
+        elif choice == "Quit":
+            print("GAME OVER!!")
+            exit()
+
+        elif choice not in location.available_actions():
+            print('NOT A VALID ACTION!')
+            continue
+
+        elif choice in ['North', 'Up']:
+            current_player.y -= 1
+
+        elif choice in ['South', 'Down']:
+            current_player.y += 1
+
+        elif choice == 'East':
+            current_player.x += 1
+
+        elif choice == 'West':
+            current_player.x -= 1
+
+        current_player = p2 if current_player == p1 else p1
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
         #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
