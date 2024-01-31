@@ -234,15 +234,57 @@ class World:
         locations = locations_data.read().split('END\n\n')
         for l in locations:
             location = l.split('\n')
-            position = int(l[0].strip()[9::])
-            points = int(l[1])
-            b_desc = l[2]
+            position = int(location[0].strip()[9::])
+            points = int(location[1])
+            b_desc = location[2]
             l_desc = " ".join(l[3::])
+
+            items = [item for item in self.items if item.start_position == location]
+
+            commands = []
+            for i in range(len(self.map)):
+                if position in self.map[i]:
+                    j = self.map.index(position)
+
+                    if j + 1 < len(self.map[i]) and self.map[i][j+1] != -1:
+                        commands.append('East')
+                    
+                    if j - 1 >= 0 and self.map[i][j-1] != -1:
+                        commands.append('West')
+
+                    if i + 1 < len(self.map) and self.map[i + 1][j] != -1:
+                        commands.append('South')
+                    
+                    if i - 1 >= 0 and self.map[i - 1][j] != -1:
+                        commands.append('North')
+
+                    if items != []:
+                        commands.append('Pick Up')
+   
+
             Location(position, points, b_desc, l_desc, commands, items)
 
 
 
-    # TODO: Add methods for loading location data and item data (see note above).
+    def load_items(self, items_data: TextIO) -> list[Item]:
+        """
+        Store Items from items file into a list of Item Objects.
+        then returns list
+        """
+
+        items = items_data.read().split('\n')
+
+        items_list = []
+
+        for item in items:
+            item_data = item.split(' ')
+            location = item_data[0]
+            target = item_data[1]
+            points = item_data[2]
+            name = " ".join(item_data[3::])
+
+            items_list.append(Item(name, location, target, points))
+
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def get_location(self, x: int, y: int) -> Optional[Location]:
@@ -251,4 +293,4 @@ class World:
          return None.)
         """
 
-        # TODO: Complete this method as specified. Do not modify any of this function's specifications.
+        return self.map[y][x] if self.map[y][x] != -1 else None
