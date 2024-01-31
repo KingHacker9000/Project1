@@ -31,7 +31,7 @@ if __name__ == "__main__":
     p1 = Player("Player 1", 0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
     p2 = Player("Player 2", 0, 4)
 
-    menu = ["Look", "Inventory", "Score", "Quit"]
+    menu = ["Look", "Inventory", "Score", "Quit", "Rules"]
 
     current_player = p1
 
@@ -56,32 +56,41 @@ if __name__ == "__main__":
         print("[menu]")
         for action in location.available_actions():
             print(action)
+
         choice = input("\nEnter action: ").capitalize().strip()
 
-        if choice == "[menu]":
-            print("Menu Options: \n")
-            for option in menu:
-                print(option)
+        while choice in menu + ['[menu]'] and choice not in location.available_actions():
+
+            if choice == "[menu]":
+                print("Menu Options: \n")
+                for option in menu:
+                    print(option)
+
+            elif choice == 'Look':
+                print("Looking")
+
+            elif choice == 'Inventory':
+                print(current_player.inventory)
+
+            elif choice == "Score":
+                print(current_player.score)
+
+            elif choice == "Quit":
+                print("GAME OVER!!")
+                exit()
+
+            elif choice == "Rules":
+                print(RULES)
+
+            else:
+                print('NOT A VALID ACTION!')
+
+            for action in location.available_actions():
+                print(action)
+
             choice = input("\nChoose action: ")
 
-        if choice == 'Look':
-            print("Looking")
-
-        elif choice == 'Inventory':
-            print(current_player.inventory)
-
-        elif choice == "Score":
-            print(current_player.score)
-
-        elif choice == "Quit":
-            print("GAME OVER!!")
-            exit()
-
-        elif choice not in location.available_actions():
-            print('NOT A VALID ACTION!')
-            continue
-
-        elif choice in ['North', 'Up']:
+        if choice in ['North', 'Up']:
             current_player.y -= 1
 
         elif choice in ['South', 'Down']:
