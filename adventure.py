@@ -25,10 +25,12 @@ MOVES_PER_TURN = 3
 BACK_STORY = """Your friend and you have got an important exam coming up this evening, and you've been studying for weeks.
 Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied
 places throughout the night. Unfortunately, the both of you ended up losing your T-card as the night progressed and you're nervous because
-the might not let you two into the exam room! Also, you two have also lost your lucky pens. To make things worse, the cheat sheet you made 
+they might not let you two into the exam room! Also, you two have also lost your lucky pens. To make things worse, the cheat sheet you made 
 overnight has gone missing as well. All of this stuff must be around campus somewhere. Can you two find it before the exam begins?
 """
-RULES = ("=" * 40) + """\n\n""" + ("=" * 40)
+RULES = ("=" * 40) + """\nTo clear the game, you two have to find your T-card, lucky pen, and cheat sheet and deposit it at the exam centre.
+However, you can also compete with each other. As you progress through the game, you will be able to accumulate and spend points. You can 
+score points through visiting locations or finding items. The person with the higher points wins at the end. \n""" + ("=" * 40)
 
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
