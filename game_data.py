@@ -232,6 +232,9 @@ class World:
         """
 
         locations = locations_data.read().split('END\n\n')
+
+        locations_list = []
+
         for l in locations:
             location = l.split('\n')
             position = int(location[0].strip()[9::])
@@ -244,7 +247,7 @@ class World:
             commands = []
             for i in range(len(self.map)):
                 if position in self.map[i]:
-                    j = self.map.index(position)
+                    j = self.map[i].index(position)
 
                     if j + 1 < len(self.map[i]) and self.map[i][j+1] != -1:
                         commands.append('East')
@@ -262,7 +265,7 @@ class World:
                         commands.append('Pick Up')
    
 
-            Location(position, points, b_desc, l_desc, commands, items)
+            locations_list.append(Location(position, points, b_desc, l_desc, commands, items))
 
 
 
@@ -285,6 +288,8 @@ class World:
 
             items_list.append(Item(name, location, target, points))
 
+        return items_list
+
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def get_location(self, x: int, y: int) -> Optional[Location]:
@@ -294,3 +299,19 @@ class World:
         """
 
         return self.map[y][x] if self.map[y][x] != -1 else None
+
+    def __repr__(self) -> str:
+        s = 'MAP:\n'
+
+        import json
+        s += json.dumps(self.map)
+
+        s += '\nItems:\n'
+        for item in self.items:
+            s += " | ".join([item.name, item.start_position, item.target_position]) + "\n"
+
+        s += '\nLocations:\n'
+        for location in self.locations:
+            s += " | ".join([location.position, location.l_description]) + '\n'
+
+        return s
