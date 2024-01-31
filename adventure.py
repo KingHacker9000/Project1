@@ -22,7 +22,12 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 from game_data import World, Item, Location, Player
 
 MOVES_PER_TURN = 3
-BACK_STORY = """"""
+BACK_STORY = """Your friend and you have got an important exam coming up this evening, and you've been studying for weeks.
+Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied
+places throughout the night. Unfortunately, the both of you ended up losing your T-card as the night progressed and you're nervous because
+the might not let you two into the exam room! Also, you two have also lost your lucky pens. To make things worse, the cheat sheet you made 
+overnight has gone missing as well. All of this stuff must be around campus somewhere. Can you two find it before the exam begins?
+"""
 RULES = ("=" * 40) + """\n"""
 
 if __name__ == "__main__":
