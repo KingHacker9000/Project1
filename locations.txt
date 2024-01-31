@@ -62,4 +62,4 @@ LOCATION 60
 0
 You are at the Front Campus. There are many items lying around. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
 You are at the Front Campus. It is filled with snow and there are many students playing around the field. You notice that there are many items lying around on the ground. Maybe one of your items is lying here. There is an exit to Sidney Smith to the East, and there is an exit to Myhal to the South.
-END
+END 
