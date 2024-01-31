@@ -5,5 +5,5 @@
 70 70 50 Bonus Energy Drink
 30 30 100 Bonus Calculator
 11 00 50 Pen Backup Pen
-80 00 -50 Reference Bookstore Pen
+80 00 -50 Pen Bookstore Pen
 -1 -1 1000 Bonus Past Papers

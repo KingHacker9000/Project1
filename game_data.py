@@ -54,9 +54,9 @@ class Item:
         # All item objects in your game MUST be represented as an instance of this class.
 
         self.name = name
-        self.start_position = start
-        self.target_position = target
-        self.target_points = target_points
+        self.start_position = int(start)
+        self.target_position = int(target)
+        self.target_points = int(target_points)
         self.deposited = False
 
     def pick_up(self, player):
@@ -80,18 +80,20 @@ class Reference(Item):
 
         if random.randint(1,10) < 3:
             print("There was an Error in the Reference Sheet! D:")
-            print('Score\t-' + self.target_points)
+            print('Score\t-', self.target_points)
             player.score -= self.target_points
 
         else:
             print("Hooray! You studied and feel more prepared for the Test :D")
-            print('Score\t+' + self.target_points//2)
+            print('Score\t+', self.target_points//2)
             player.score += self.target_points // 2
 
 
 class Pen(Item):
 
     def practise_handwriting(self, player):
+        print("Hooray! You studied and feel more prepared for the Test :D")
+        print('Score\t+', math.fabs(self.target_points) // 5)
         player.score += math.fabs(self.target_points) // 5
 
 
@@ -108,9 +110,9 @@ class Hint(Item):
         """
 
         self.name = name
-        self.start_position = start
-        self.target_position = target
-        self.target_points = target_points
+        self.start_position = int(start)
+        self.target_position = int(target)
+        self.target_points = int(target_points)
         self.deposited = False
         self.hint = hint
 
@@ -208,7 +210,7 @@ class Player:
     name: str
     x: int
     y: int
-    inventory: list[list[Item]]
+    inventory: list[Item]
     victory: bool
     score: int
     hasPen: bool
@@ -271,12 +273,9 @@ class World:
         for l in self.locations:
             items = [item for item in self.items if item.start_position == l.position]
             l.contained_items = items
-            print(l.contained_items, l.position)
             if items != []:
                 l.avail_cmd.append('Pick up')
-        
-        for l in self.locations:
-            print(l.contained_items)
+
     
 
     def load_map(self, map_data: TextIO) -> list[list[int]]:

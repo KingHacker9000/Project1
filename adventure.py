@@ -21,7 +21,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
 
-MOVES_PER_TURN = 20
+MOVES_PER_TURN = 5
 BACK_STORY = """Your friend and you have got an important exam coming up this evening, and you've been studying for weeks.
 Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied
 places throughout the night. Unfortunately, the both of you ended up losing your T-card as the night progressed and you're nervous because
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     p1 = Player("Player 1", 0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
     p2 = Player("Player 2", 0, 4)
 
-    menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map"]
+    menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map", "Read", "Write", "Deposit", "Take test"]
 
     current_player = p1
     moves_this_turn = 0
@@ -48,7 +48,12 @@ if __name__ == "__main__":
     print('\n\n\n' + BACK_STORY)
     print(RULES, '\n\n')
 
-    while not p1.victory and not p2.victory:
+    while not p1.victory or not p2.victory:
+
+        if p1.victory:
+            current_player = p2
+        elif p2.victory:
+            current_player = p1
 
         if moves_this_turn == 0:
             print('#'*60)
@@ -136,6 +141,32 @@ if __name__ == "__main__":
                 else:
                     print("Nothing\n")
 
+            elif choice == "Deposit":
+
+                for item in current_player.inventory:
+
+                    if not item.deposited and item.target_position == w.get_location(current_player.x, current_player.y).position:
+                        item.deposit(current_player, w)
+
+            elif choice == "Take test":
+
+                if w.get_location(current_player.x, current_player.y).position != 0:
+                    print("Need to go to Test Center to take the Test")
+
+                elif not (current_player.hasPen and current_player.hasReference and current_player.hasPen):
+                    print("You are missing some required material")
+
+                else:
+                    print("Auto-depositing test materials")
+                    for item in current_player.inventory:
+
+                        if not item.deposited and item.target_position == w.get_location(current_player.x, current_player.y).position:
+                            item.deposit(current_player, w)
+
+                    print("You took the test and your hard work paid off!")
+
+                    current_player.victory = True
+                    
 
             elif choice == "Search treasure":
                 print("Lost Energy while searching, score:\t-100")
@@ -154,10 +185,41 @@ if __name__ == "__main__":
                     print("You found no Hidden Treasure")
 
             elif choice == 'Inventory':
-                print(current_player.inventory)
+                if current_player.hasID:
+                    print(current_player.name, "has their ID\n")
+
+                if current_player.hasPen:
+                    print(current_player.name, 'has a Pen\n')
+
+                if current_player.hasReference:
+                    print(current_player.name, 'has a Reference\n')
+
+                if current_player.inventory == []:
+                    print("You have no Items")
+                    
+                for item in current_player.inventory:
+                    print(item.name)
 
             elif choice == "Score":
                 print(current_player.name.upper() + ":", current_player.score)
+
+            elif choice == 'Read':
+
+                if current_player.hasReference:
+                    ref = [item for item in current_player.inventory if isinstance(item, Reference)][0]
+                    ref.study(current_player)
+
+                else:
+                    print("You don't have a Reference to Study from!")
+
+            elif choice == 'Write':
+
+                if current_player.hasPen:
+                    pen = [item for item in current_player.inventory if isinstance(item, Pen)][0]
+                    pen.practise_handwriting(current_player)
+
+                else:
+                    print("You don't have a pen to practise!")
 
             elif choice == "Quit":
                 print(p1.name.upper() + ":", p1.score)
@@ -205,14 +267,3 @@ if __name__ == "__main__":
         if moves_this_turn >= MOVES_PER_TURN:
             current_player = p2 if current_player == p1 else p1
             moves_this_turn = 0
-
-        # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
-        #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
-        #  the choice the player made was just a movement, so only updating player's position is enough to change the
-        #  location to the next appropriate location
-        #  Possibilities:
-        #  A helper function such as do_action(w, p, location, choice)
-        #  OR A method in World class w.do_action(p, location, choice)
-        #  OR Check what type of action it is, then modify only player or location accordingly
-        #  OR Method in Player class for move or updating inventory
-        #  OR Method in Location class for updating location item info, or other location data etc....
