@@ -1,1 +1,9 @@
-1 10 5 Cheat Sheet
+12 00 100 Reference Cheat Sheet
+50 00 200 ID T-Card
+91 00 150 Pen Lucky Pen
+60 00 100 Reference Reference Book
+70 70 50 Bonus Energy Drink
+30 30 100 Bonus Calculator
+11 00 50 Pen Backup Pen
+80 00 -50 Reference Bookstore Pen
+-1 -1 1000 Bonus Past Papers

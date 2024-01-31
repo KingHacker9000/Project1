@@ -19,7 +19,7 @@ please consult our Course Syllabus.
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 from typing import Optional, TextIO
-import math, json
+import math, json, random
 
 class Item:
     """An item in our text adventure game world.
@@ -38,6 +38,7 @@ class Item:
     start_position: int
     target_position: int
     target_points: int
+    deposited: bool
 
     def __init__(self, name: str, start: int, target: int, target_points: int) -> None:
         """Initialize a new item.
@@ -56,9 +57,62 @@ class Item:
         self.start_position = start
         self.target_position = target
         self.target_points = target_points
+        self.deposited = False
+
+    def pick_up(self, player):
+        player.inventory.append(self)
+        if self.start_position == self.target_position:
+            player.score += self.target_points
+            self.deposited = True
+
+    def deposit(self, player, world):
+        if not self.deposited and self.target_position == world.get_location(player.x, player.y).position:
+            player.score += self.target_points
+            self.deposited = True
 
     def __repr__(self) -> str:
-        return self.name
+        return self.name + " => " + str(self.start_position)
+
+
+class Reference(Item):
+
+    def study(self, player):
+
+        if random.randint(1,10) < 3:
+            print("There was an Error in the Reference Sheet! D:")
+            print('Score\t-' + self.target_points)
+            player.score -= self.target_points
+
+        else:
+            print("Hooray! You studied and feel more prepared for the Test :D")
+            print('Score\t+' + self.target_points//2)
+            player.score += self.target_points // 2
+
+
+class Pen(Item):
+
+    def practise_handwriting(self, player):
+        player.score += math.fabs(self.target_points) // 5
+
+
+class Hint(Item):
+
+    def __init__(self, name: str, start: int, target: int, target_points: int, hint: str) -> None:
+        """Initialize a new item.
+        """
+
+        self.name = name
+        self.start_position = start
+        self.target_position = target
+        self.target_points = target_points
+        self.deposited = False
+        self.hint = hint
+
+    def read(self):
+        print(self.hint)
+
+    def __repr__(self) -> str:
+        return self.name + " = " + self.hint + " => " + str(self.start_position) + str(type(self))
 
 class Location:
     """A location in our text adventure game world.
@@ -86,7 +140,7 @@ class Location:
     items: list[Item]
     visited: bool
 
-    def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item]) -> None:
+    def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item] = []) -> None:
         """Initialize a new location.
 
         """
@@ -115,6 +169,9 @@ class Location:
         self.items = items
         self.visited = False
 
+
+    def add_items(self, items: list[Item]):
+        self.items.extend(items)
 
     def available_actions(self):
         """
@@ -148,6 +205,9 @@ class Player:
     inventory: list[list[Item]]
     victory: bool
     score: int
+    hasPen: False
+    hasID: False
+    hasReference: False
 
     def __init__(self, name:str, x: int, y: int) -> None:
         """
@@ -196,13 +256,15 @@ class World:
 
         # The map MUST be stored in a nested list as described in the load_map() function's docstring below
         self.map = self.load_map(map_data)
-        self.items = self.load_items(items_data)
         self.locations = self.load_locations(location_data)
+        self.items = self.load_items(items_data)
 
-        # NOTE: You may choose how to store location and item data; create your own World methods to handle these
-        # accordingly. The only requirements:
-        # 1. Make sure the Location class is used to represent each location.
-        # 2. Make sure the Item class is used to represent each item.
+        for l in self.locations:
+            items = [item for item in self.items if item.start_position == l.position]
+            l.add_items(items)
+            if items != []:
+                l.avail_cmd.append('Pick up')
+    
 
     def load_map(self, map_data: TextIO) -> list[list[int]]:
         """
@@ -245,8 +307,6 @@ class World:
             b_desc = location[2]
             l_desc = "".join(location[3::]).strip()
 
-            items = [item for item in self.items if item.start_position == location]
-
             commands = []
 
             if position > -1:
@@ -283,12 +343,9 @@ class World:
                                         commands.append('Go south')
                                         break
                                     n += 1
-
-                        if items != []:
-                            commands.append('Pick up')
    
 
-            locations_list.append(Location(position, points, b_desc, l_desc, commands, items))
+            locations_list.append(Location(position, points, b_desc, l_desc, commands))
 
         return locations_list
 
@@ -304,13 +361,41 @@ class World:
 
         for item in items:
             item_data = item.split(' ')
-            location = item_data[0]
+            location = int(item_data[0])
             target = item_data[1]
             points = item_data[2]
-            name = " ".join(item_data[3::])
+            item_type = item_data[3] 
+            name = " ".join(item_data[4::])
 
-            items_list.append(Item(name, location, target, points))
+            if item_type == 'Reference':
+                items_list.append(Reference(name, location, target, points))
+            
+            elif item_type == 'Pen':
+                items_list.append(Pen(name, location, target, points))
 
+            elif location == -1:
+                x = random.randint(0, len(self.map[0])-1)
+                y = random.randint(0, len(self.map)-1)
+                while self.get_location(x, y) is None:
+                    x = random.randint(0, len(self.map[0])-1)
+                    y = random.randint(0, len(self.map)-1)
+
+                location = self.get_location(x, y).position
+
+                hintx = random.randint(0, len(self.map[0])-1)
+                hinty = random.randint(0, len(self.map)-1)
+                while self.get_location(hintx, hinty) is None:
+                    hintx = random.randint(0, len(self.map[0])-1)
+                    hinty = random.randint(0, len(self.map)-1)
+
+                hintLocation = self.get_location(hintx, hinty).position
+                items_list.append(Hint("Treasure Map", hintLocation, hintLocation, 0, f"Hear ye, Seekers bold and keen, a lost prize at an unknown scene! To reclaim the treasures I hide, follow the path I provide. Higher or Forward, my message is cryptic, but you'll find great pleasure looking {int(math.fabs(hintx - x)) if hintx - x != 0 else 'none'} {'away from' if hintx - x >= 0 else 'towards'} the arctic. But do not forget {int(math.fabs(hinty - y)) if hinty - y != 0 else 'none'} {'away from' if hinty - y <= 0 else 'towards'} the sunrise, is where my treasure hidden lies"))
+                items_list.append(Item(name, location, target, points))
+
+            else:
+                items_list.append(Item(name, location, target, points))
+
+        # print(items_list)
         return items_list
 
 
