@@ -78,7 +78,7 @@ class Reference(Item):
 
     def study(self, player):
 
-        if random.randint(1,10) < 3:
+        if random.randint(1,10) < 2:
             print("There was an Error in the Reference Sheet! D:")
             print('Score\t-', self.target_points)
             player.score -= self.target_points
@@ -101,7 +101,11 @@ class ID(Item):
     pass
 
 class Treasure(Item):
-    pass
+
+    def pick_up(self, player):
+        player.inventory.append(self)
+        player.score += self.target_points
+        self.deposited = True
 
 class Hint(Item):
 
@@ -141,14 +145,14 @@ class Location:
         - self.position >= 0
     """
     position: int
-    points: int
+    name: str
     b_description: str
     l_description: str
     avail_cmd: list[str]
     contained_items: list[Item]
     visited: bool
 
-    def __init__(self, position: int, points:int, b_description:str, l_description:str, commands:list[str], items:list[Item] = []) -> None:
+    def __init__(self, position: int, name:str, b_description:str, l_description:str, commands:list[str], items:list[Item] = []) -> None:
         """Initialize a new location.
 
         """
@@ -170,7 +174,7 @@ class Location:
         # All locations in your game MUST be represented as an instance of this class.
 
         self.position = position
-        self.points = 0
+        self.name = name
         self.b_description = b_description
         self.l_description = l_description
         self.avail_cmd = commands
@@ -273,9 +277,6 @@ class World:
         for l in self.locations:
             items = [item for item in self.items if item.start_position == l.position]
             l.contained_items = items
-            if items != []:
-                l.avail_cmd.append('Pick up')
-
     
 
     def load_map(self, map_data: TextIO) -> list[list[int]]:
@@ -315,7 +316,7 @@ class World:
         for l in locations:
             location = l.split('\n')
             position = int(location[0].strip()[9::])
-            points = int(location[1])
+            name = location[1]
             b_desc = location[2]
             l_desc = "".join(location[3::]).strip()
 
@@ -357,9 +358,10 @@ class World:
                                     n += 1
    
 
-            locations_list.append(Location(position, points, b_desc, l_desc, commands))
+            locations_list.append(Location(position, name, b_desc, l_desc, commands))
 
         return locations_list
+
 
     def load_items(self, items_data: TextIO) -> list[Item]:
         """
@@ -468,6 +470,7 @@ class World:
 
 
         map = ""
+        print(buildings)
 
         yPos = sum([max([buildings[i][j] for i in range(len(buildings))]) for j in range(len(buildings[0]))]) -1
 
@@ -477,6 +480,7 @@ class World:
             tallest = max([buildings[y][i] for y in range(len(buildings))])
 
             block = []
+            names = ''
 
             for j in range(len(buildings)):
 
@@ -485,6 +489,7 @@ class World:
                 for x in range(buildings[j][i]):
 
                     y = x * 3
+                    print(yPos, xPos)
 
                     s = "▢"
                     if yPos == p1.y and xPos == p1.x:
@@ -519,10 +524,15 @@ class World:
                         block.append(" "*12 + '\t')
                     y += 1
 
+                if self.map[yPos][xPos] % 10 == 0:
+                    names += self.get_location(xPos, yPos).name[:13:].center(13) + "   "
+                    
+
                 xPos += 1
 
-            map = "\n".join(block[::-1]) + '\n\n' + map
-            yPos -= 1
+            map = "\n".join(block[::-1]) + f'\n{names}' + '\n\n' + map
+            print(tallest)
+            yPos -= tallest
 
         print(map)
 
