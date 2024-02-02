@@ -177,7 +177,7 @@ if __name__ == "__main__":
 
                     print("You found Treasure!!")
                     item = items[0]
-                    print("You collected the", item.name.capitalize() )
+                    print("You collected ", "✨",  item.name.capitalize(), "✨" )
                     item.pick_up(current_player)
                     location.contained_items.remove(item)
 
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
                 if current_player.inventory == []:
                     print("You have no Items")
-                    
+
                 for item in current_player.inventory:
                     print(item.name)
 
@@ -249,10 +249,28 @@ if __name__ == "__main__":
 
             choice = input("\nEnter action:\t").capitalize().strip()
 
-        if choice in ['Go north', 'Go up']:
+        if choice == "Go north":
+            dy = -1
+            location = w.get_location(current_player.x, current_player.y+dy)
+            while location is None or location.position % 10 != 0:
+                dy -= 1
+                location = w.get_location(current_player.x, current_player.y+dy)
+
+            current_player.y += dy
+
+        elif choice == "Go south":
+            dy = 1
+            location = w.get_location(current_player.x, current_player.y+dy)
+            while location is None or location.position % 10 != 0:
+                dy += 1
+                location = w.get_location(current_player.x, current_player.y+dy)
+
+            current_player.y += dy
+
+        elif choice == 'Go up':
             current_player.y -= 1
 
-        elif choice in ['Go south', 'Go down']:
+        elif choice in'Go down':
             current_player.y += 1
 
         elif choice == 'Go east':
