@@ -151,21 +151,12 @@ if __name__ == "__main__":
                         item.deposit(current_player, w)
                         print("Deposited", item.name)
 
-                if current_player.target_x == current_player.x and current_player.target_y == current_player.y:
-
-                    if not (current_player.hasID and current_player.hasPen and current_player.hasReference):
-                        print(current_player.name, "is missing a required item")
-
-
-
-                
-                print("")
-
+                break
                 
 
             elif choice == "Take test":
 
-                if w.get_location(current_player.x, current_player.y).position != 0:
+                if current_player.target_x != current_player.x or current_player.target_y != current_player.y:
                     print("Need to go to Test Center to take the Test")
 
                 elif not (current_player.hasPen and current_player.hasReference and current_player.hasPen):
@@ -178,10 +169,12 @@ if __name__ == "__main__":
                         if not item.deposited and item.target_position == w.get_location(current_player.x, current_player.y).position:
                             item.deposit(current_player, w)
 
-                    print("You took the test and your hard work paid off!")
-
+                    print(current_player.name, "Finished the game!\n")
                     current_player.victory = True
-                    
+                    moves_this_turn = MOVES_PER_TURN + 1
+
+                break
+
 
             elif choice == "Search treasure":
                 print("Lost Energy while searching, score:\t-100")
@@ -198,6 +191,9 @@ if __name__ == "__main__":
 
                 else:
                     print("You found no Hidden Treasure")
+
+                break
+
 
             elif choice == 'Inventory':
                 if current_player.hasID:
@@ -227,6 +223,9 @@ if __name__ == "__main__":
                 else:
                     print("You don't have a Reference to Study from!")
 
+                break
+
+
             elif choice == 'Write':
 
                 if current_player.hasPen:
@@ -235,6 +234,8 @@ if __name__ == "__main__":
 
                 else:
                     print("You don't have a pen to practise!")
+
+                break
 
             elif choice == "Quit":
                 print(p1.name.upper() + ":", p1.score)
@@ -298,5 +299,20 @@ if __name__ == "__main__":
         moves_this_turn += 1
 
         if moves_this_turn >= MOVES_PER_TURN:
-            current_player = p2 if current_player == p1 else p1
+
+            if current_player == p1 and not p2.victory:
+                current_player = p2
+
+            elif current_player == p2 and not p1.victory:
+                current_player = p1
+            
             moves_this_turn = 0
+
+
+    print(p1.name.upper() + ":", int(p1.score))
+    print(p2.name.upper() + ":", int(p2.score))
+
+    if p1.score > p2.score and p1.victory:
+        print(p1.name, "Won")
+    elif p2.score < p1.score and p2.victory:
+        print(p2.name, "Won")

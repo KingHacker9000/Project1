@@ -67,7 +67,7 @@ class Item:
 
     def deposit(self, player, world):
         if not self.deposited and self.target_position == world.get_location(player.x, player.y).position:
-            player.score += self.target_points
+            player.score += int(self.target_points)
             self.deposited = True
 
     def __repr__(self) -> str:
@@ -220,6 +220,8 @@ class Player:
     hasPen: bool
     hasID: bool
     hasReference: bool
+    target_x: int
+    target_y: int
 
     def __init__(self, name:str, x: int, y: int, target_x: int, target_y: int) -> None:
         """
