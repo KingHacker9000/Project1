@@ -34,7 +34,7 @@ RULES = ("=" * 120) + '\n' + "RULES".center(120) + """
 -> The person with the higher points wins at the end.
 -> You have to collect the items and deposit them at the Exam Center\n""" + ("=" * 120)
 
-if __name__ == "__main__":
+def play_game():
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
 
     target = w.get_position(00)
@@ -316,3 +316,13 @@ if __name__ == "__main__":
         print(p1.name, "Won")
     elif p2.score < p1.score and p2.victory:
         print(p2.name, "Won")
+
+
+if __name__ == "__main__":
+
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120
+    })
+
+    play_game()
