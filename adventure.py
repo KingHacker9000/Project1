@@ -37,8 +37,10 @@ RULES = ("=" * 120) + '\n' + "RULES".center(120) + """
 if __name__ == "__main__":
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
 
-    p1 = Player("Player 1", 0, 2)  # set starting location of player; you may change the x, y coordinates here as appropriate
-    p2 = Player("Player 2", 0, 4)
+    target = w.get_position(00)
+
+    p1 = Player("Player 1", 0, 2, target[0], target[1])  # set starting location of player; you may change the x, y coordinates here as appropriate
+    p2 = Player("Player 2", 0, 4, target[0], target[1])
 
     menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map", "Read", "Write", "Deposit", "Take test"]
 
@@ -147,6 +149,19 @@ if __name__ == "__main__":
 
                     if not item.deposited and item.target_position == w.get_location(current_player.x, current_player.y).position:
                         item.deposit(current_player, w)
+                        print("Deposited", item.name)
+
+                if current_player.target_x == current_player.x and current_player.target_y == current_player.y:
+
+                    if not (current_player.hasID and current_player.hasPen and current_player.hasReference):
+                        print(current_player.name, "is missing a required item")
+
+
+
+                
+                print("")
+
+                
 
             elif choice == "Take test":
 

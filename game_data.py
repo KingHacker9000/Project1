@@ -221,7 +221,7 @@ class Player:
     hasID: bool
     hasReference: bool
 
-    def __init__(self, name:str, x: int, y: int) -> None:
+    def __init__(self, name:str, x: int, y: int, target_x: int, target_y: int) -> None:
         """
         Initializes a new Player at position (x, y).
         """
@@ -239,6 +239,8 @@ class Player:
         self.hasPen = False
         self.hasID = False
         self.hasReference = False
+        self.target_x = target_x
+        self.target_y = target_y
 
 
 class World:
@@ -426,7 +428,18 @@ class World:
         for location in self.locations:
             if location.position == self.map[y][x]:
                 return location
+            
+        
+    def get_position(self, position: int) -> Optional[tuple[int]]:
+        """Return x and y values for a position"""
 
+        for y in range(len(self.map)):
+            for x in range(len(self.map[y])):
+
+                if self.map[y][x] == position:
+                    return (x, y)
+
+        return None
 
     def draw_map(self, p1: Player = None, p2: Player = None):
 
