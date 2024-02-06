@@ -19,7 +19,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 
 # Note: You may add in other import statements here as needed
-from game_data import * #World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
+from game_data import World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
 
 MOVES_PER_TURN = 5
 BACK_STORY = """Your friend and you have got an important exam coming up this evening, and you've been studying for weeks.
