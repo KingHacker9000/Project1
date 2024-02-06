@@ -35,8 +35,9 @@ RULES = ("=" * 120) + '\n' + "RULES".center(120) + """
 -> You have to collect the items and deposit them at the Exam Center\n""" + ("=" * 120)
 
 
-def player_pickup(current_player: Player, item:Item, name: str, location: Location) -> None:
-
+def player_pickup(current_player: Player, item: Item, name: str, location: Location) -> None:
+    """Player move to pickup Item
+    """
     if isinstance(item, Pen):
 
         if current_player.hasPen:
@@ -115,6 +116,8 @@ def player_deposit(current_player: Player, w: World) -> None:
 
 
 def player_take_test(current_player: Player, w: World) -> None:
+    """Player move to take the test and end the game
+    """
     if current_player.target_x != current_player.x or current_player.target_y != current_player.y:
         print("Need to go to Test Center to take the Test")
 
@@ -126,14 +129,16 @@ def player_take_test(current_player: Player, w: World) -> None:
         for item in current_player.inventory:
 
             if not item.deposited and item.target_position == w.get_location(current_player.x,
-                                                                                current_player.y).position:
+                                                                             current_player.y).position:
                 item.deposit(current_player, w)
 
         print(current_player.name, "Finished the game!\n")
         current_player.victory = True
 
 
-def player_search_treasure(current_player, location) -> None:
+def player_search_treasure(current_player: Player, location: Location) -> None:
+    """Player move to search the location for Hidden Treasure
+    """
     print("Lost Energy while searching, score:\t-100")
     current_player.score -= 100
     items = [i for i in location.contained_items if isinstance(i, Treasure)]
@@ -150,7 +155,9 @@ def player_search_treasure(current_player, location) -> None:
         print("You found no Hidden Treasure")
 
 
-def player_inventory(current_player) -> None:
+def player_inventory(current_player: Player) -> None:
+    """Player move to check their inventory
+    """
     if current_player.hasID:
         print(current_player.name, "has their ID\n")
 
@@ -165,6 +172,72 @@ def player_inventory(current_player) -> None:
 
     for item in current_player.inventory:
         print(item.name)
+
+
+def player_go_north(current_player: Player, w: World) -> None:
+    """Player move to go towards north
+    """
+    dy = -1
+    location = w.get_location(current_player.x, current_player.y + dy)
+    while location is None or location.position % 10 != 0:
+        dy -= 1
+        location = w.get_location(current_player.x, current_player.y + dy)
+
+    current_player.y += dy
+
+
+def player_go_south(current_player: Player, w: World) -> None:
+    """Player move to go towards south
+    """
+    dy = 1
+    location = w.get_location(current_player.x, current_player.y + dy)
+    while location is None or location.position % 10 != 0:
+        dy += 1
+        location = w.get_location(current_player.x, current_player.y + dy)
+
+    current_player.y += dy
+
+
+def print_menu(menu: str) -> None:
+    """Print the menu options available"""
+    print("Menu Options: \n")
+    for option in menu:
+        print(option)
+    print()
+
+
+def player_read(current_player: Player) -> None:
+    """Player move to read Reference to gain score"""
+    if current_player.hasReference:
+        ref = [i for i in current_player.inventory if isinstance(i, Reference)][0]
+        ref.study(current_player)
+
+    else:
+        print("You don't have a Reference to Study from!")
+
+
+def player_write(current_player: Player) -> None:
+    """Player move to write with pen to gain score"""
+    if current_player.hasPen:
+        pen = [i for i in current_player.inventory if isinstance(i, Pen)][0]
+        pen.practise_handwriting(current_player)
+
+    else:
+        print("You don't have a pen to practise!")
+
+
+def player_quit(p1: Player, p2: Player) -> None:
+    """End the game at current point"""
+    print(p1.name.upper() + ":", p1.score)
+    print(p2.name.upper() + ":", p2.score)
+
+    if p1.score > p2.score and p1.victory:
+        print(p1.name, "Won")
+    elif p2.score < p1.score and p2.victory:
+        print(p2.name, "Won")
+
+    print("GAME OVER!!")
+    exit()
 
 
 def play_game() -> None:
@@ -217,10 +290,7 @@ def play_game() -> None:
         while choice in menu + ['[menu]'] and choice not in location.available_actions():
 
             if choice == "[menu]":
-                print("Menu Options: \n")
-                for option in menu:
-                    print(option)
-                print()
+                print_menu(menu)
 
             elif choice == 'Look':
                 player_look(current_player, location)
@@ -231,8 +301,7 @@ def play_game() -> None:
 
             elif choice == "Take test":
                 player_take_test(current_player, w)
-                if current_player.victory:
-                    moves_this_turn = MOVES_PER_TURN + 1
+                moves_this_turn = MOVES_PER_TURN + 1
                 break
 
             elif choice == "Search treasure":
@@ -246,38 +315,15 @@ def play_game() -> None:
                 print(current_player.name.upper() + ":", current_player.score)
 
             elif choice == 'Read':
-
-                if current_player.hasReference:
-                    ref = [i for i in current_player.inventory if isinstance(i, Reference)][0]
-                    ref.study(current_player)
-
-                else:
-                    print("You don't have a Reference to Study from!")
-
+                player_read(current_player)
                 break
 
             elif choice == 'Write':
-
-                if current_player.hasPen:
-                    pen = [i for i in current_player.inventory if isinstance(i, Pen)][0]
-                    pen.practise_handwriting(current_player)
-
-                else:
-                    print("You don't have a pen to practise!")
-
+                player_write(current_player)
                 break
 
             elif choice == "Quit":
-                print(p1.name.upper() + ":", p1.score)
-                print(p2.name.upper() + ":", p2.score)
-
-                if p1.score > p2.score and p1.victory:
-                    print(p1.name, "Won")
-                elif p2.score < p1.score and p2.victory:
-                    print(p2.name, "Won")
-
-                print("GAME OVER!!")
-                exit()
+                player_quit(p1, p2)
 
             elif choice == "Map":
                 w.draw_map(p1, p2)
@@ -296,22 +342,10 @@ def play_game() -> None:
             choice = input("\nEnter action:\t").capitalize().strip()
 
         if choice == "Go north":
-            dy = -1
-            location = w.get_location(current_player.x, current_player.y + dy)
-            while location is None or location.position % 10 != 0:
-                dy -= 1
-                location = w.get_location(current_player.x, current_player.y + dy)
-
-            current_player.y += dy
+            player_go_north(current_player, w)
 
         elif choice == "Go south":
-            dy = 1
-            location = w.get_location(current_player.x, current_player.y + dy)
-            while location is None or location.position % 10 != 0:
-                dy += 1
-                location = w.get_location(current_player.x, current_player.y + dy)
-
-            current_player.y += dy
+            player_go_south(current_player, w)
 
         elif choice == 'Go up':
             current_player.y -= 1
@@ -348,9 +382,9 @@ def play_game() -> None:
 
 if __name__ == "__main__":
 
-    import python_ta
-    python_ta.check_all(config={
-        'max-line-length': 120
-    })
+    # import python_ta
+    # python_ta.check_all(config={
+    #     'max-line-length': 120
+    # })
 
     play_game()
