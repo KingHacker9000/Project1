@@ -22,7 +22,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 from game_data import World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
 
 MOVES_PER_TURN = 5
-BACK_STORY = """Your friend and you have got an important exam coming up this evening, and you've been studying for weeks.
+BACK_STORY = """Your friend and you have got an important exam coming up, and you've been studying for weeks.
 Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied
 places throughout the night. Unfortunately, the both of you ended up losing your T-card as the night progressed and you're nervous because
 they might not let you two into the exam room! Also, you two have also lost your lucky pens. To make things worse, the cheat sheet you made 
@@ -34,15 +34,152 @@ RULES = ("=" * 120) + '\n' + "RULES".center(120) + """
 -> The person with the higher points wins at the end.
 -> You have to collect the items and deposit them at the Exam Center\n""" + ("=" * 120)
 
-def play_game():
+
+def player_pickup(current_player: Player, item:Item, name: str, location: Location) -> None:
+
+    if isinstance(item, Pen):
+
+        if current_player.hasPen:
+            print("You already have a Pen!")
+        else:
+            print("You collected the", name)
+            current_player.hasPen = True
+            item.pick_up(current_player)
+            location.contained_items.remove(item)
+
+    elif isinstance(item, Reference):
+
+        if current_player.hasReference:
+            print("You already have a Reference Item!")
+        else:
+            print("You collected the", name)
+            item.pick_up(current_player)
+            current_player.hasReference = True
+            location.contained_items.remove(item)
+
+    elif isinstance(item, Hint):
+
+        print("You pick up the Treasure Map, and it reads the following:\n")
+        item.read()
+        print()
+
+    elif isinstance(item, ID):
+        if current_player.hasID:
+            print("You already have your ID")
+        else:
+            print("You collected the", name)
+            item.pick_up(current_player)
+            current_player.hasID = True
+            location.contained_items.remove(item)
+
+    else:
+        print("You collected the", name)
+        item.pick_up(current_player)
+        location.contained_items.remove(item)
+
+
+def player_look(current_player: Player, location: Location) -> None:
+    """The Look move for the player
+    """
+
+    print("After a light gloss you found ", end="")
+    if location.contained_items != []:
+        items = [i.name.capitalize()
+                 for i in location.contained_items if not isinstance(i, Treasure)]
+        print(", ".join(items))
+
+        pickup = input("What would you like to pickup (type none to not pickup):\t").capitalize().strip()
+
+        if pickup not in items:
+            print("You picked up nothing")
+
+        for item in location.contained_items:
+            name = item.name.capitalize()
+
+            if name == pickup:
+                player_pickup(current_player, item, name, location)
+
+    else:
+        print("Nothing\n")
+
+
+def player_deposit(current_player: Player, w: World) -> None:
+    """The Deposit inventory move for the current player
+    """
+    for item in current_player.inventory:
+
+        if not item.deposited and item.target_position == w.get_location(current_player.x,
+                                                                         current_player.y).position:
+            item.deposit(current_player, w)
+            print("Deposited", item.name)
+
+
+def player_take_test(current_player: Player, w: World) -> None:
+    if current_player.target_x != current_player.x or current_player.target_y != current_player.y:
+        print("Need to go to Test Center to take the Test")
+
+    elif not (current_player.hasPen and current_player.hasReference and current_player.hasPen):
+        print("You are missing some required material")
+
+    else:
+        print("Auto-depositing test materials")
+        for item in current_player.inventory:
+
+            if not item.deposited and item.target_position == w.get_location(current_player.x,
+                                                                                current_player.y).position:
+                item.deposit(current_player, w)
+
+        print(current_player.name, "Finished the game!\n")
+        current_player.victory = True
+
+
+def player_search_treasure(current_player, location) -> None:
+    print("Lost Energy while searching, score:\t-100")
+    current_player.score -= 100
+    items = [i for i in location.contained_items if isinstance(i, Treasure)]
+
+    if items != []:
+
+        print("You found Treasure!!")
+        item = items[0]
+        print("You collected", "✨", item.name.capitalize(), "✨")
+        item.pick_up(current_player)
+        location.contained_items.remove(item)
+
+    else:
+        print("You found no Hidden Treasure")
+
+
+def player_inventory(current_player) -> None:
+    if current_player.hasID:
+        print(current_player.name, "has their ID\n")
+
+    if current_player.hasPen:
+        print(current_player.name, 'has a Pen\n')
+
+    if current_player.hasReference:
+        print(current_player.name, 'has a Reference\n')
+
+    if current_player.inventory == []:
+        print("You have no Items")
+
+    for item in current_player.inventory:
+        print(item.name)
+
+
+def play_game() -> None:
+    """ Play the Text Adventure Game
+    """
     w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
 
     target = w.get_position(00)
 
-    p1 = Player("Player 1", 0, 2, target[0], target[1])  # set starting location of player; you may change the x, y coordinates here as appropriate
+    p1 = Player("Player 1", 0, 2, target[0], target[1])
+    # set starting location of player; you may change the x, y coordinates here as appropriate
     p2 = Player("Player 2", 0, 4, target[0], target[1])
 
-    menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map", "Read", "Write", "Deposit", "Take test"]
+    menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map",
+            "Read", "Write", "Deposit", "Take test"]
 
     current_player = p1
     moves_this_turn = 0
@@ -58,9 +195,9 @@ def play_game():
             current_player = p1
 
         if moves_this_turn == 0:
-            print('#'*60)
+            print('#' * 60)
             print((current_player.name + "'s Turn").center(60))
-            print('#'*60)
+            print('#' * 60)
 
         location = w.get_location(current_player.x, current_player.y)
 
@@ -86,130 +223,24 @@ def play_game():
                 print()
 
             elif choice == 'Look':
-                print("After a light gloss you found ", end="")
-                if location.contained_items != []:
-                    items = [item.name.capitalize() for item in location.contained_items if not isinstance(item, Treasure)]
-                    print(", ".join(items))
-
-                    pickup = input("What would you like to pickup (type none to not pickup):\t").capitalize().strip()
-
-                    if pickup not in items:
-                        print("You picked up nothing")
-
-                    for item in location.contained_items:
-                        name = item.name.capitalize()
-
-                        if name == pickup:
-
-                            if isinstance(item, Pen):
-
-                                if current_player.hasPen:
-                                    print("You already have a Pen!")
-                                else:
-                                    print("You collected the", name)
-                                    current_player.hasPen = True
-                                    item.pick_up(current_player)
-                                    location.contained_items.remove(item)
-
-                            elif isinstance(item, Reference):
-
-                                if current_player.hasReference:
-                                    print("You already have a Reference Item!")
-                                else:
-                                    print("You collected the", name)
-                                    item.pick_up(current_player)
-                                    current_player.hasReference = True
-                                    location.contained_items.remove(item)
-
-                            elif isinstance(item, Hint):
-
-                                print("You pick up the Treasure Map, and it reads the following:\n")
-                                item.read()
-                                print()
-                                
-                            elif isinstance(item, ID):
-                                if current_player.hasID:
-                                    print("You already have your ID")
-                                else:
-                                    print("You collected the", name)
-                                    item.pick_up(current_player)
-                                    current_player.hasID = True
-                                    location.contained_items.remove(item)
-
-                            else:
-                                print("You collected the", name)
-                                item.pick_up(current_player)
-                                location.contained_items.remove(item)
-                else:
-                    print("Nothing\n")
+                player_look(current_player, location)
 
             elif choice == "Deposit":
-
-                for item in current_player.inventory:
-
-                    if not item.deposited and item.target_position == w.get_location(current_player.x, current_player.y).position:
-                        item.deposit(current_player, w)
-                        print("Deposited", item.name)
-
+                player_deposit(current_player, w)
                 break
-                
 
             elif choice == "Take test":
-
-                if current_player.target_x != current_player.x or current_player.target_y != current_player.y:
-                    print("Need to go to Test Center to take the Test")
-
-                elif not (current_player.hasPen and current_player.hasReference and current_player.hasPen):
-                    print("You are missing some required material")
-
-                else:
-                    print("Auto-depositing test materials")
-                    for item in current_player.inventory:
-
-                        if not item.deposited and item.target_position == w.get_location(current_player.x, current_player.y).position:
-                            item.deposit(current_player, w)
-
-                    print(current_player.name, "Finished the game!\n")
-                    current_player.victory = True
+                player_take_test(current_player, w)
+                if current_player.victory:
                     moves_this_turn = MOVES_PER_TURN + 1
-
                 break
-
 
             elif choice == "Search treasure":
-                print("Lost Energy while searching, score:\t-100")
-                current_player.score -= 100
-                items = [item for item in location.contained_items if isinstance(item, Treasure)]
-
-                if items != []:
-
-                    print("You found Treasure!!")
-                    item = items[0]
-                    print("You collected ", "✨",  item.name.capitalize(), "✨" )
-                    item.pick_up(current_player)
-                    location.contained_items.remove(item)
-
-                else:
-                    print("You found no Hidden Treasure")
-
+                player_search_treasure(current_player, location)
                 break
 
-
             elif choice == 'Inventory':
-                if current_player.hasID:
-                    print(current_player.name, "has their ID\n")
-
-                if current_player.hasPen:
-                    print(current_player.name, 'has a Pen\n')
-
-                if current_player.hasReference:
-                    print(current_player.name, 'has a Reference\n')
-
-                if current_player.inventory == []:
-                    print("You have no Items")
-
-                for item in current_player.inventory:
-                    print(item.name)
+                player_inventory(current_player)
 
             elif choice == "Score":
                 print(current_player.name.upper() + ":", current_player.score)
@@ -217,7 +248,7 @@ def play_game():
             elif choice == 'Read':
 
                 if current_player.hasReference:
-                    ref = [item for item in current_player.inventory if isinstance(item, Reference)][0]
+                    ref = [i for i in current_player.inventory if isinstance(i, Reference)][0]
                     ref.study(current_player)
 
                 else:
@@ -225,11 +256,10 @@ def play_game():
 
                 break
 
-
             elif choice == 'Write':
 
                 if current_player.hasPen:
-                    pen = [item for item in current_player.inventory if isinstance(item, Pen)][0]
+                    pen = [i for i in current_player.inventory if isinstance(i, Pen)][0]
                     pen.practise_handwriting(current_player)
 
                 else:
@@ -267,26 +297,26 @@ def play_game():
 
         if choice == "Go north":
             dy = -1
-            location = w.get_location(current_player.x, current_player.y+dy)
+            location = w.get_location(current_player.x, current_player.y + dy)
             while location is None or location.position % 10 != 0:
                 dy -= 1
-                location = w.get_location(current_player.x, current_player.y+dy)
+                location = w.get_location(current_player.x, current_player.y + dy)
 
             current_player.y += dy
 
         elif choice == "Go south":
             dy = 1
-            location = w.get_location(current_player.x, current_player.y+dy)
+            location = w.get_location(current_player.x, current_player.y + dy)
             while location is None or location.position % 10 != 0:
                 dy += 1
-                location = w.get_location(current_player.x, current_player.y+dy)
+                location = w.get_location(current_player.x, current_player.y + dy)
 
             current_player.y += dy
 
         elif choice == 'Go up':
             current_player.y -= 1
 
-        elif choice in'Go down':
+        elif choice == 'Go down':
             current_player.y += 1
 
         elif choice == 'Go east':
@@ -294,7 +324,6 @@ def play_game():
 
         elif choice == 'Go west':
             current_player.x -= 1
-
 
         moves_this_turn += 1
 
@@ -305,9 +334,8 @@ def play_game():
 
             elif current_player == p2 and not p1.victory:
                 current_player = p1
-            
-            moves_this_turn = 0
 
+            moves_this_turn = 0
 
     print(p1.name.upper() + ":", int(p1.score))
     print(p2.name.upper() + ":", int(p2.score))
