@@ -567,3 +567,10 @@ class World:
             s += " | ".join([str(location.position), location.l_description]) + '\n'
 
         return s
+
+if __name__ == "__main__":
+
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120
+    })

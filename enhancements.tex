@@ -6,7 +6,7 @@
 \usepackage[margin=0.75in]{geometry}
 
 \title{CSC111 Winter 2024 Project 1}
-\author{TODO: FILL IN YOUR NAME(S) HERE}
+\author{Ashish Ajin and Rithvik Sunil}
 \date{\today}
 
 \begin{document}
@@ -17,13 +17,27 @@
 
 \begin{enumerate}
 
-\item Describe your enhancement \#1 here
+\item (Inheritance) New objects that are subclasses of the Item superclass.
+
 	\begin{itemize}
-	\item Brief description of what the enhancement is (if it's a puzzle, also describe what steps the player must take to solve it):
-	\item Complexity level (choose from low/medium/high):
-	\item Reasons you believe this is the complexity level (e.g. mention implementation details, how much code did you have to add/change from the baseline, what challenges did you face, etc.)
-	% Feel free to add more subheadings if you need
+        \item Created new subclasses that inherit from the Item parent class and are treated as new objects in the game. These classes/objects are Reference, Pen, ID, Treasure, Hint.
+        \item Low complexity
+        \item It was fairly simple to create these classes after we had a basic idea of what we wanted to do with it. We wanted these objects to have their own methods that the Item superclass doesn't have and so we did this. We did not have to code much to create these classes so we think it is low complexity.
+        \end{itemize}
+        
+\item (Puzzle) Finding past papers
+
+        \begin{itemize}
+        \item We have included a past paper that will give the player more points when found. To find the past paper, the player has to first find the 'hint' that we have hidden. This hint would give instructions on how to reach the treasure. The treasure is the past paper. We have also added certain enhancements such as gaining and losing points in the process of finding this past paper.
+        \item High complexity
+        \item It took quite a bit of time to sketch out a plan of how we wanted to implement this and how we wanted to award/deduct points in the process of going about this puzzle. We did not have to add many lines of code (about 50 lines), however, it was challenging to write it. We utilised the subclasses that we created in this puzzle. The Reference item is the past paper, the Hint item is the hint, and so on.
 	\end{itemize}
+ \item (Additional) Two player game
+        \begin{itemize}
+        \item This game is played by 2 players, rather than the initially intended one. Each player gets 5 turns before the other player gets their turn. The one with the higher score accumulated wins in the end. 
+        \item Medium complexity
+        \item It was not hard to code this. We just had to create a new player and then figure out how we wanted to alternate between both of their turns. We also had to implement some competition factor besides just reaching the Exam Center and so we had the idea that the winner is the one with higher points accumulated.
+        \end{itemize}
 
 % Uncomment below section if you have more enhancements; copy-paste as many times as needed
 %\item Describe your enhancement here
@@ -35,10 +49,5 @@
 %	\end{itemize}
 
 \end{enumerate}
-
-
-\section*{Extra Gameplay Files}
-
-If you have any extra \texttt{gameplay\#.txt} files, describe them below.
 
 \end{document}
