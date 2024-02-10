@@ -30,7 +30,6 @@ Go east
 Go north
 Go south
 Go west
-Go east
 [menu]
 Deposit
 Take test
