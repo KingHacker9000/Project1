@@ -1,38 +1,40 @@
-Ashish
-Rithvik
-Map
-Go south
-Go south
-Go east
-Look
-T-card
-Inventory
-Go north
-Go north
-Go down
-Go east
-Go west
-Go up
-Go down
-Go up
-Look
-Lucky pen
-Inventory
-Go down
-Go south
-Look
-Reference book
-Inventory
-Go south
-Go south
-Go south
-Go east
-Go north
-Go south
-Go west
+ashish
+rithvik
+map
+go south
+go south
+go east
+look
+t-card
+inventory
+go north
+go north
+go down
+go east
+go west
+go up
+go down
+go up
+look
+lucky pen
+inventory
+go down
+go south
+look
+reference book
+inventory
+go south
+go south
+go south
+go east
+go north
+go south
+go west
 [menu]
-Deposit
-Take test
+deposit
+take test
+quit
+
 
 
 
