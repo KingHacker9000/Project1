@@ -21,7 +21,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
 
-TURNS_CAP = 30
+TURNS_CAP = 20
 MOVES_PER_TURN = 5
 BACK_STORY = """Your friend and you have got an important exam coming up, and you've been studying for weeks.
 Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied

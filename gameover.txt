@@ -1,1 +1,44 @@
-Oops! You have exhausted your 30 moves. The game is over. Try again.
+Ashish
+Rithvik
+map
+go Up
+look
+Backup Pen
+go Up
+look
+Cheat sheet
+Go Down
+inventory
+go Down
+Go East
+go Down
+score
+go South
+search Treasure
+look
+Bookstore pen
+Go East
+Go North
+Go Up
+look
+none
+Go Down
+go south
+go west
+Go South
+Go North
+Go South
+Go North
+Go South
+Go North
+Go South
+Go North
+Go South
+Go North
+Go South
+Go North
+Go South
+Go North
+Go South
+Go North
+Go South

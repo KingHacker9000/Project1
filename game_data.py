@@ -494,7 +494,7 @@ class World:
 
 
         map = ""
-        print(buildings)
+        # print(buildings)
 
         yPos = sum([max([buildings[i][j] for i in range(len(buildings))]) for j in range(len(buildings[0]))]) -1
 
@@ -513,7 +513,7 @@ class World:
                 for x in range(buildings[j][i]):
 
                     y = x * 3
-                    print(yPos, xPos)
+                    # print(yPos, xPos)
 
                     s = "▢"
                     if yPos == p1.y and xPos == p1.x and yPos == p2.y and xPos == p2.x:
@@ -557,7 +557,7 @@ class World:
                 xPos += 1
 
             map = "\n".join(block[::-1]) + f'\n{names}' + '\n\n' + map
-            print(tallest)
+            # print(tallest)
             yPos -= tallest
 
         print(map)
