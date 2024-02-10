@@ -29,11 +29,29 @@ places throughout the night. Unfortunately, the both of you ended up losing your
 they might not let you two into the exam room! Also, you two have also lost your lucky pens. To make things worse, the cheat sheet you made 
 overnight has gone missing as well. All of this stuff must be around campus somewhere. Can you two find it before the exam begins?
 """
-RULES = ("=" * 120) + '\n' + "RULES".center(120) + """
--> To clear the game, you two have to find your T-card, lucky pen, and cheat sheet and deposit it at the exam centre.
+RULES = ("=" * 120) + '\n' + "RULES".center(120) + f"""
+-> To clear the game, Players have to find your T-card, lucky pen, and cheat sheet and deposit it at the exam centre.
 -> You accumulate and spend points by visiting locations or finding items.
--> The person with the higher points wins at the end.
--> You have to collect the items and deposit them at the Exam Center\n""" + ("=" * 120)
+-> Player with the higher points wins at the end.
+-> You have to collect the items and deposit them at the Exam Center in less than {TURNS_CAP} moves, else exam begins without you!
+-> Once you have collected all items, you can use the ~Take Test~ command to complete your move
+-> Use ~inventory~ to check items in your inventory and if you have the required items
+-> Use ~score~ to check the score of both players
+-> Make sure you have a score greater than 0 to win!
+
+Map:
+-> Use ~map~ to show a map of all the locations
+-> A marks Player 1
+-> B marks Player 2
+-> X marks both Player 1 and Player 2
+
+Extras:
+-> Once you aquire a Reference Type Item, you may ~read~ it to gain extra score, but be warned as they may have errors!
+-> Once you aquire a Pen Type Item you may 'write' with it to gain extra score
+-> Once a player completes the game, every extra turn taken by the other player adds 50 extra points
+-> If you find a Hint to Treasure you can decode it to find the location of the Hidden Treasure
+-> Treasures can only be found by ~Search treasure~ command not the ~look~, however you will have to risk losing some of your score to search
+\n""" + ("=" * 120)
 
 
 def player_pickup(current_player: Player, item: Item, name: str, location: Location) -> None:
@@ -90,7 +108,7 @@ def player_look(current_player: Player, location: Location) -> None:
                  for i in location.contained_items if not isinstance(i, Treasure)]
         print(", ".join(items), "\n")
 
-        pickup = input("What would you like to pickup (type none to not pickup):\t").capitalize().strip()
+        pickup = input("Which Item would you like to pickup (type none to pick nothing):\t").capitalize().strip()
 
         if pickup not in items:
             print("You picked up nothing")
