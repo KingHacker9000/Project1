@@ -75,6 +75,7 @@ class Item:
 
 
 class Reference(Item):
+    '''Reference sheet object'''
 
     def study(self, player):
 
@@ -90,6 +91,7 @@ class Reference(Item):
 
 
 class Pen(Item):
+    '''Pen object'''
 
     def practise_handwriting(self, player):
         print("Hooray! You studied and feel more prepared for the Test :D")
@@ -98,9 +100,11 @@ class Pen(Item):
 
 
 class ID(Item):
+    '''T-card'''
     pass
 
 class Treasure(Item):
+    '''Past paper'''
 
     def pick_up(self, player):
         player.inventory.append(self)
@@ -108,6 +112,7 @@ class Treasure(Item):
         self.deposited = True
 
 class Hint(Item):
+    '''Instructions hint'''
 
     def __init__(self, name: str, start: int, target: int, target_points: int, hint: str) -> None:
         """Initialize a new item.
@@ -447,6 +452,7 @@ class World:
         return None
 
     def draw_map(self, p1: Player = None, p2: Player = None):
+        '''Draws a map and shows the names of the buldings and your current location'''
 
         buildings = []
 
