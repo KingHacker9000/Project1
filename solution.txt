@@ -1,0 +1,37 @@
+ashish
+rithvik
+map
+go south
+go south
+go east
+look
+t-card
+inventory
+go north
+go north
+go down
+go east
+go west
+go up
+go down
+go up
+look
+lucky pen
+inventory
+go down
+go south
+look
+reference book
+inventory
+go south
+go south
+go south
+go east
+go north
+go south
+go west
+[menu]
+deposit
+score
+take test
+quit
