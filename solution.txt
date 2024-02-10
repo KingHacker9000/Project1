@@ -32,6 +32,7 @@ go south
 go west
 [menu]
 deposit
+score
 take test
 quit
 
