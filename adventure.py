@@ -21,6 +21,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import World, Item, Location, Player, Pen, Hint, Reference, ID, Treasure
 
+TURNS_CAP = 30
 MOVES_PER_TURN = 5
 BACK_STORY = """Your friend and you have got an important exam coming up, and you've been studying for weeks.
 Last night was a particularly late night on campus. To focus, rather than staying in one place, the both of you studied in varied
@@ -87,7 +88,7 @@ def player_look(current_player: Player, location: Location) -> None:
     if location.contained_items != []:
         items = [i.name.capitalize()
                  for i in location.contained_items if not isinstance(i, Treasure)]
-        print(", ".join(items))
+        print(", ".join(items), "\n")
 
         pickup = input("What would you like to pickup (type none to not pickup):\t").capitalize().strip()
 
@@ -99,6 +100,8 @@ def player_look(current_player: Player, location: Location) -> None:
 
             if name == pickup:
                 player_pickup(current_player, item, name, location)
+        
+        print("\n")
 
     else:
         print("Nothing\n")
@@ -247,9 +250,12 @@ def play_game() -> None:
 
     target = w.get_position(00)
 
-    p1 = Player("Player 1", 0, 2, target[0], target[1])
+    p1name = input("Enter Name of Player 1:\t").strip().title()
+    p2name = input("Enter Name of Player 2:\t").strip().title()
+
+    p1 = Player(p1name, 0, 2, target[0], target[1])
     # set starting location of player; you may change the x, y coordinates here as appropriate
-    p2 = Player("Player 2", 0, 4, target[0], target[1])
+    p2 = Player(p2name, 0, 4, target[0], target[1])
 
     menu = ["Look", "Search treasure", "Inventory", "Score", "Quit", "Rules", "Map",
             "Read", "Write", "Deposit", "Take test"]
@@ -260,11 +266,11 @@ def play_game() -> None:
     print('\n\n\n' + BACK_STORY)
     print(RULES, '\n\n')
 
-    while not p1.victory or not p2.victory:
+    while not (p1.victory and p2.victory) or (p1.moves > TURNS_CAP and p2.moves > TURNS_CAP):
 
-        if p1.victory:
+        if p1.victory or p1.moves > TURNS_CAP:
             current_player = p2
-        elif p2.victory:
+        elif p2.victory or p2.moves > TURNS_CAP:
             current_player = p1
 
         if moves_this_turn == 0:
@@ -274,6 +280,7 @@ def play_game() -> None:
 
         location = w.get_location(current_player.x, current_player.y)
 
+        print("LOCATION:", location.name, "-", location.position, "\n")
         if location.visited:
             print(location.b_description)
         else:
@@ -286,6 +293,7 @@ def play_game() -> None:
             print(action.title())
 
         choice = input("\nEnter action:\t").capitalize().strip()
+        print()
 
         while choice in menu + ['[menu]'] and choice not in location.available_actions():
 
@@ -293,6 +301,7 @@ def play_game() -> None:
                 print_menu(menu)
 
             elif choice == 'Look':
+                print(location.l_description, "\n")
                 player_look(current_player, location)
 
             elif choice == "Deposit":
@@ -360,6 +369,7 @@ def play_game() -> None:
             current_player.x -= 1
 
         moves_this_turn += 1
+        current_player.moves += 1
 
         if moves_this_turn >= MOVES_PER_TURN:
 
@@ -371,12 +381,19 @@ def play_game() -> None:
 
             moves_this_turn = 0
 
-    print(p1.name.upper() + ":", int(p1.score))
-    print(p2.name.upper() + ":", int(p2.score))
+    if p1.victory and p1.score > 0:
+        print(p1.name.upper(), "Passed the exam with a score of:", int(p1.score))
+    else:
+        print(p1.name.upper(), "Failed the Exam!")
+
+    if p2.victory and p2.score > 0:
+        print(p2.name.upper(), "Passed the exam with a score of:", int(p2.score))
+    else:
+        print(p2.name.upper(), "Failed the Exam!")
 
     if p1.score > p2.score and p1.victory:
         print(p1.name, "Won")
-    elif p2.score < p1.score and p2.victory:
+    elif p2.score > p1.score and p2.victory:
         print(p2.name, "Won")
 
 

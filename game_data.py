@@ -205,6 +205,7 @@ class Player:
         - inventory: List of Items carried by Player
         - victory: win status
         - score: points awarded to the player
+        - moves: Number of Moves the player has had
 
     Representation Invariants:
         - x >= 0
@@ -222,6 +223,7 @@ class Player:
     hasReference: bool
     target_x: int
     target_y: int
+    moves: int
 
     def __init__(self, name:str, x: int, y: int, target_x: int, target_y: int) -> None:
         """
@@ -243,6 +245,7 @@ class Player:
         self.hasReference = False
         self.target_x = target_x
         self.target_y = target_y
+        self.moves = 0
 
 
 class World:
@@ -507,7 +510,9 @@ class World:
                     print(yPos, xPos)
 
                     s = "▢"
-                    if yPos == p1.y and xPos == p1.x:
+                    if yPos == p1.y and xPos == p1.x and yPos == p2.y and xPos == p2.x:
+                        s = "X"
+                    elif yPos == p1.y and xPos == p1.x:
                         s = "A"
                     elif yPos == p2.y and xPos == p2.x:
                         s = "B"
