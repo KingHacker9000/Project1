@@ -449,6 +449,7 @@ class World:
         return None
 
     def draw_map(self, p1: Player = None, p2: Player = None):
+        '''Draws a map and shows the names of the buldings and your current location'''
 
         buildings = []
 
