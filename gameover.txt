@@ -1,0 +1,1 @@
+Oops! You have exhausted your 30 moves. The game is over. Try again.
