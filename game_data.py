@@ -515,7 +515,7 @@ class World:
                     y = x * 3
                     # print(yPos, xPos)
 
-                    s = "▢"
+                    s = "-"
                     if yPos == p1.y and xPos == p1.x and yPos == p2.y and xPos == p2.x:
                         s = "X"
                     elif yPos == p1.y and xPos == p1.x:
@@ -526,11 +526,11 @@ class World:
                     if len(block) > y+2:
                         block[y+2] +=   "|           |\t"
                         
-                        block[y+1] += f"| ▢ ▢ {s} ▢ ▢ |\t"
+                        block[y+1] += f"| - - {s} - - |\t"
                         block[y] += "|___________|\t"
                     else:
                         block.append("|___________|\t")
-                        block.append(f"| ▢ ▢ {s} ▢ ▢ |\t")
+                        block.append(f"| - - {s} - - |\t")
                         block.append("|           |\t")
                     yPos -= 1
 

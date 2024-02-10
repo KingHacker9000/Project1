@@ -284,7 +284,7 @@ def play_game() -> None:
     print('\n\n\n' + BACK_STORY)
     print(RULES, '\n\n')
 
-    while not (p1.victory and p2.victory) or (p1.moves > TURNS_CAP and p2.moves > TURNS_CAP):
+    while not (p1.victory and p2.victory) and (p1.moves < TURNS_CAP and p2.moves < TURNS_CAP):
 
         if p1.victory or p1.moves > TURNS_CAP:
             current_player = p2

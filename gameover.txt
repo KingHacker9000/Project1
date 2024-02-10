@@ -1,27 +1,51 @@
-Ashish
-Rithvik
+ashish
+rithvik
 map
-go Up
+go south
+go south
+go east
 look
-Backup Pen
-go Up
-look
-Cheat sheet
-Go Down
+t-card
 inventory
-go Down
-Go East
-go Down
-score
-go South
-search Treasure
-look
-Bookstore pen
-Go East
-Go North
-Go Up
+go north
+go north
+go down
+go east
+go west
+go up
+go down
+go up
 look
 none
-Go Down
+inventory
+go down
+go south
+look
+none
+score
+go south
+go south
+go south
+go east
+go north
 go south
 go west
+[menu]
+deposit
+score
+take test
+go north
+go south
+go north
+go south
+go north
+go north
+go south
+go north
+go south
+go north
+go south
+go north
+go south
+go north
+go south
